@@ -33,7 +33,7 @@ RUN mkdir -p /run/nginx && \
 COPY frontend/App/nginx.conf /etc/nginx/nginx.conf
 
 # Copy built application
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/build /usr/share/nginx/html
 
 # Switch to nginx user
 USER nginx
