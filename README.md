@@ -12,6 +12,11 @@ Book Store v2.x solution built with .NET 10 and React 18, designed to demonstrat
 
 To get a local copy up and running, follow these simple steps.
 
+If you want to test the React App in your development environment, run the next command.
+ ```sh
+ npm run dev
+ ```
+
 ### Prerequisites
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
@@ -43,6 +48,7 @@ To get a local copy up and running, follow these simple steps.
    ```sh
    docker-compose up --build
    ```
+7. The Web API will be accessible at `http://localhost:5000/swagger` and the React frontend at `http://localhost:3000`. 
 
 ## Architecture Overview
 

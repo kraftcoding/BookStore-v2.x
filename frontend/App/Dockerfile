@@ -6,13 +6,13 @@ WORKDIR /app
 RUN apk add --no-cache tini
 
 # Copy package files
-COPY src/frontend/package*.json ./
+COPY frontend/App/package*.json ./
 
 # Install dependencies. Use `npm install` here instead of `npm ci` because the package-lock.json may not be present.
 RUN npm install --no-audit --prefer-offline --no-fund
 
 # Copy source and build
-COPY src/frontend/ ./
+COPY frontend/App/ ./
 RUN npm run build
 
 # Stage 2: Serve with Nginx
@@ -30,7 +30,7 @@ RUN mkdir -p /run/nginx && \
     chown -R nginx:nginx /usr/share/nginx/html
 
 # Copy custom nginx config
-COPY src/frontend/nginx.conf /etc/nginx/nginx.conf
+COPY frontend/App/nginx.conf /etc/nginx/nginx.conf
 
 # Copy built application
 COPY --from=build /app/dist /usr/share/nginx/html

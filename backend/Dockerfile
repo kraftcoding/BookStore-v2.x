@@ -11,11 +11,11 @@ EXPOSE 8081
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["./src//Books.Api.Docker.csproj", "."]
+WORKDIR /backend
+COPY ["./backend/Books.Api.Docker.csproj", "."]
 RUN dotnet restore "Books.Api.Docker.csproj"
 COPY . .
-WORKDIR "./src"
+WORKDIR "./backend"
 RUN dotnet build "Books.Api.Docker.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

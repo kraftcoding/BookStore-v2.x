@@ -4,7 +4,7 @@ public static class BookEndpoints
 {
     public static void MapBookEndpoints(this IEndpointRouteBuilder app)
     {
-        var bookGroup = app.MapGroup("books");
+        var bookGroup = app.MapGroup("api/books");
 
         bookGroup.MapGet("", GetAllBooks).WithName(nameof(GetAllBooks));
 

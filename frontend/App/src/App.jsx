@@ -1,45 +1,65 @@
 import { useState, useEffect } from 'react';
-import { getItems, createItem } from './api';
+import { getBooks, createBook } from './api';
 import './App.css';
 
 function App() {
-  const [items, setItems] = useState([]);
-  const [name, setName] = useState('');
-  const [value, setValue] = useState('');
+  const [books, setBooks] = useState([]);
+  const [title, setTitle] = useState('');
+  const [isbn, setIsbn] = useState('');
+  const [description, setDescription] = useState('');
+  const [author, setAuthor] = useState('');
 
   useEffect(() => {
-    loadItems();
+    loadBooks();
   }, []);
 
-  const loadItems = async () => {
+  const loadBooks = async () => {
     try {
-      const data = await getItems();
-      setItems(data);
+      const data = await getBooks();
+      setBooks(data);
     } catch (err) {
-      console.error('Failed to load items');
+      console.error('Failed to load books');
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createItem({ name, value: parseInt(value) });
-    setName(''); setValue('');
-    loadItems();
+    await createBook({ title, isbn, description, author });
+    setTitle(''); 
+    setIsbn('');
+    setDescription('');
+    setAuthor('');
+    loadBooks();
   };
 
   return (
     <div className="App">
-      <h1>Full Stack Application</h1>
+      <h6>Add book</h6>
       <form onSubmit={handleSubmit}>
-        <input value={name} onChange={e => setName(e.target.value)} placeholder="Name" required />
-        <input type="number" value={value} onChange={e => setValue(e.target.value)} placeholder="Value" required />
-        <button type="submit">Add Item</button>
+       <div> 
+        <span>
+          <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Title" required />
+        </span><br />
+        <span>
+          <input value={isbn} onChange={e => setIsbn(e.target.value)} placeholder="ISBN" required />
+        </span><br />
+        <span>
+          <input value={description} onChange={e => setDescription(e.target.value)} placeholder="Description" required />
+        </span><br />
+        <span>
+          <input value={author} onChange={e => setAuthor(e.target.value)} placeholder="Author" required />
+        </span><br /><br />
+        <span>
+          <button type="submit">Add book</button>
+        </span>
+      </div>
       </form>
       <ul>
-        {items.map(item => (
-          <li key={item.id}>{item.name}: {item.value}</li>
+        {books.map(book => (
+          <li> {book.id} | {book.title} | {book.isbn} | {book.description} | {book.description}</li>
         ))}
       </ul>
+      
     </div>
   );
 }
