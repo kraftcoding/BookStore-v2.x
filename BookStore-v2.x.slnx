@@ -5,6 +5,9 @@
   <Folder Name="/frontend/">
     <Project Path="frontend/Books.App.Docker.csproj" />
   </Folder>
+  <Folder Name="/scripts/">
+    <File Path="scripts/CORS-disable-web-security.bat" />
+  </Folder>
   <Project Path="docker-compose.dcproj">
     <Build />
   </Project>
