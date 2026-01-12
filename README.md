@@ -14,7 +14,7 @@ To get a local copy up and running, follow these simple steps.
 
 If you want to test the React App in your development environment, run the next command.
  ```sh
- npm run dev
+ npm start
  ```
 
 ### Prerequisites
