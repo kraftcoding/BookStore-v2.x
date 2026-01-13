@@ -22,7 +22,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Product } from '../../types/product';
 import SearchResults from '../search/SearchResults';
 import Avatar from '@mui/material/Avatar';
-import { deepOrange } from '@mui/material/colors';
+import { lightBlue } from '@mui/material/colors';
 import { addToCart } from '../../redux/reducers/cartSlice';
 
 const Search = styled('form')(({ theme }) => ({
@@ -135,7 +135,7 @@ const Navbar = () => {
             }}
           >
             <Typography variant="h6" noWrap component="div">
-              <BrandLink to="/">eSHOP</BrandLink>
+              <BrandLink to="/">Book Store</BrandLink>
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
@@ -210,7 +210,7 @@ const Navbar = () => {
                 <CartLink to="/profile">
                   <Avatar
                     sx={{
-                      bgcolor: deepOrange[400],
+                      bgcolor: lightBlue,
                       width: 35,
                       height: 35,
                     }}
@@ -244,7 +244,7 @@ const Navbar = () => {
           </Box>
           <Box>
             <Typography variant="h6" noWrap sx={{ m: 1 }}>
-              <MenuLink to="/shop">SHOP</MenuLink>
+              <MenuLink to="/shop">LOAN</MenuLink>
             </Typography>
           </Box>
           <Box>

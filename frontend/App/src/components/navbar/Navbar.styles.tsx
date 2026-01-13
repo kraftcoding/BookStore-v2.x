@@ -16,7 +16,7 @@ export const MenuContainer = styled(Toolbar)`
 
 export const BrandLink = styled(Link)`
   text-decoration: none;
-  color: orange;
+  color: lightBlue;
   cursor: pointer;
   font-size: 30px;
 `;
@@ -27,7 +27,7 @@ export const MenuLink = styled(Link)`
   cursor: pointer;
 
   &:hover {
-    color: orange;
+    color: lightBlue;
   }
 `;
 

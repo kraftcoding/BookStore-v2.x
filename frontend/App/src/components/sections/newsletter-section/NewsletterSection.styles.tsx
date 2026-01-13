@@ -41,7 +41,7 @@ export const SubscribeButton = styled(Button)`
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: orange;
+  background-color: lightBlue;
   color: black;
   font-size: 10px;
 

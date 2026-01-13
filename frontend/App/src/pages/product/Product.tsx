@@ -62,7 +62,7 @@ const Product = () => {
                     variant="contained"
                     onClick={() => handleAddToCart(item)} // Use handleAddToCart function
                     sx={{
-                      backgroundColor: buttonClicked ? 'green' : 'blue',
+                      backgroundColor: buttonClicked ? 'green' : 'lightBlue',
                     }}
                   >
                     <Typography>

@@ -14,9 +14,8 @@ const Footer = () => {
           INFO
         </Typography>
         <CssBaseline />
-        <Typography variant="body1">Contact us</Typography>
-        <Typography variant="body1">Customer feedback</Typography>
-        <Typography variant="body1">About eShop</Typography>
+        <Typography variant="body1">Contact us</Typography>        
+        <Typography variant="body1">About eLoan</Typography>
         <Typography variant="body1">Careers</Typography>
         <Typography variant="body1">Privacy policy</Typography>
       </Box>
@@ -27,10 +26,8 @@ const Footer = () => {
             fontWeight: 700,
           }}
         >
-          FOR BUYERS
-        </Typography>
-        <Typography variant="body1">Shipping costs</Typography>
-        <Typography variant="body1">Payment methods</Typography>
+          FOR LOANS
+        </Typography>  
         <Typography variant="body1">Returns</Typography>
         <Typography variant="body1">Terms and conditions</Typography>
         <Typography variant="body1">Frequently asked questions</Typography>
@@ -56,14 +53,11 @@ const Footer = () => {
             fontWeight: 700,
           }}
         >
-          SHOP
+          LOANS
         </Typography>
         <CssBaseline />
-        <Typography variant="body1">Clothes</Typography>
-        <Typography variant="body1">Shoes</Typography>
-        <Typography variant="body1">Furniture</Typography>
-        <Typography variant="body1">Sale</Typography>
-        <Typography variant="body1">New arrivals</Typography>
+        <Typography variant="body1">Books</Typography>
+        <Typography variant="body1">Articles</Typography>
       </Box>
       <Box sx={{ m: 1, p: 2 }}>
         <Typography
