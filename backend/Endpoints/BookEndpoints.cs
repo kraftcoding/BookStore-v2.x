@@ -70,7 +70,7 @@ public static class BookEndpoints
         book.Id = await bookService.CreateBookAsync(book, cancellationToken);
 
         return Results.CreatedAtRoute(
-            nameof(GetBookById),
+            nameof(CreateBook),
             new { id = book.Id },
             book);
     }

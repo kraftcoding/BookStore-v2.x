@@ -13,6 +13,7 @@ builder.Services
 
 builder.Services.AddScoped<IRedisCacheService, RedisCacheService>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -30,5 +31,7 @@ app.MapHealthChecks("health", new HealthCheckOptions
 app.UseHttpsRedirection();
 
 app.MapBookEndpoints();
+
+app.MapUserEndpoints();
 
 app.Run();
