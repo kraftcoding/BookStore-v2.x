@@ -90,47 +90,4 @@ public sealed class UserService(ApplicationDbContext context, IConfiguration con
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }
-
-    /*
-    public async Task<User?> GetUserByIdAsync(int id, CancellationToken cancellationToken)
-          => await context.Users
-            .AsNoTracking()
-            .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
-    public async Task<IEnumerable<User>> GetAllUsersAsync(CancellationToken cancellationToken)
-        => await context.Users
-        .AsNoTracking()
-        .OrderBy(o => o.Id)
-        .ToListAsync(cancellationToken);   
-    public async Task UpdateUserAsync(User User, CancellationToken cancellationToken)
-    {
-        var UserObj = await context.Users
-             .FirstOrDefaultAsync(b => b.Id == User.Id, cancellationToken);
-
-        if (UserObj is null)
-        {
-            throw new ArgumentException($"User is not found with Id {User.Id}");
-        }
-
-        UserObj.Name = User.Name;
-        //UserObj.ISBN = User.ISBN;
-        //UserObj.Description = User.Description;
-        //UserObj.Author = User.Author;
-
-        await context.SaveChangesAsync(cancellationToken);
-    }
-    public async Task DeleteUserByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        var User = await context.Users
-             .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
-
-        if (User is null)
-        {
-            throw new ArgumentException($"User is not foud Id {id}");
-        }
-
-        context.Remove(User);
-
-        await context.SaveChangesAsync(cancellationToken);
-    }
-    */
 }
