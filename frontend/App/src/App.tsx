@@ -3,7 +3,7 @@ import Navbar from './components/navbar/Navbar';
 import Cart from './pages/cart/Cart';
 import Home from './pages/home/Home';
 import Shop from './pages/shop/Shop';
-import Product from './pages/product/Product';
+import Book from './pages/book/Book';
 import Profile from './pages/profile/Profile';
 import Blog from './pages/blog/Blog';
 import About from './pages/about/About';
@@ -24,14 +24,14 @@ const App = () => {
             <Route path="" element={<Home />} />
             <Route path=":category">
               <Route path="" element={<Category />} />
-              <Route path=":name" element={<Product />} />
+              <Route path=":name" element={<Book />} />
             </Route>
           </Route>
           <Route path="/shop">
             <Route path="" element={<Shop />} />
             <Route path=":category">
               <Route path="" element={<Category />} />
-              <Route path=":name" element={<Product />} />
+              <Route path=":name" element={<Book />} />
             </Route>
           </Route>
           <Route path="/blog" element={<Blog />} />

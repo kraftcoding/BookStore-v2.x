@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Books.Api.Docker.Services;
 
-public sealed class UserService(ApplicationDbContext context, IConfiguration configuration) : IUserService
+public sealed class AuthService(ApplicationDbContext context, IConfiguration configuration) : IAuthService
 {
     public async Task<Response> RegisterAsync(User user, CancellationToken cancellationToken)
     {

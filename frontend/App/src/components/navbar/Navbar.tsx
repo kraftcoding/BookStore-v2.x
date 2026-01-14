@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { RootState } from '../../redux/store';
 import Typography from '@mui/material/Typography';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { Product } from '../../types/product';
+import { Book } from '../../types/book';
 import SearchResults from '../search/SearchResults';
 import Avatar from '@mui/material/Avatar';
 import { lightBlue } from '@mui/material/colors';
@@ -73,8 +73,8 @@ const Navbar = () => {
 
   //const userInfo = useAppSelector((state) => state.auth);
   const [searchTerm, setSearchTerm] = useState('');
-  const products = useAppSelector((state) => state.productReducer);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const products = useAppSelector((state) => state.bookReducer);
+  const [filteredBooks, setFilteredProducts] = useState<Book[]>([]);
   // eslint-disable-next-line
   const [showSearchResults, setShowSearchResults] = useState(false);
 
@@ -83,20 +83,20 @@ const Navbar = () => {
     setSearchTerm(searchValue);
 
     // Perform filtering based on the search term
-    const filteredProducts = products.filter((product: Product) => {
+    const filteredBooks = products.filter((product: Book) => {
       const title = product.name.toLowerCase();
       const query = searchValue.toLowerCase();
       return title.startsWith(query) || title === query;
     });
 
-    setFilteredProducts(filteredProducts.slice(0, 5));
+    setFilteredProducts(filteredBooks.slice(0, 5));
     setShowSearchResults(true);
   };
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Perform search operation based on the search term
-    const filteredProducts = products.filter((product: Product) =>
+    const filteredProducts = products.filter((product: Book) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredProducts(filteredProducts);
@@ -151,10 +151,10 @@ const Navbar = () => {
                 onChange={handleSearchChange}
               />
             </Search>
-            {searchTerm && filteredProducts.length > 0 && (
+            {searchTerm && filteredBooks.length > 0 && (
               <SearchResults
                 searchTerm={searchTerm}
-                filteredProducts={filteredProducts}
+                filteredBooks={filteredBooks}
                 onItemClick={handleItemClick}
                 showSearchResults={showSearchResults}
               />

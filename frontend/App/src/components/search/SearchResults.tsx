@@ -1,27 +1,27 @@
 import React from 'react';
-import { SearchResultsProps } from '../../types/product';
+import { SearchResultsProps } from '../../types/book';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 const SearchResults: React.FC<SearchResultsProps> = ({
-  filteredProducts,
+  filteredBooks,
   searchTerm,
   onItemClick,
   showSearchResults,
 }) => {
   const navigate = useNavigate();
 
-  const handleClick = (productName: string) => {
-    navigate(`/product/${productName}`);
+  const handleClick = (bookName: string) => {
+    navigate(`/book/${bookName}`);
     onItemClick();
   };
 
-  const startsWithResults = filteredProducts.filter((product) =>
-    product.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+  const startsWithResults = filteredBooks.filter((book) =>
+    book.name.toLowerCase().startsWith(searchTerm.toLowerCase())
   );
 
-  const exactMatchResults = filteredProducts.filter(
-    (product) => product.name.toLowerCase() === searchTerm.toLowerCase()
+  const exactMatchResults = filteredBooks.filter(
+    (book) => book.name.toLowerCase() === searchTerm.toLowerCase()
   );
 
   const results = [...startsWithResults, ...exactMatchResults];
@@ -37,10 +37,10 @@ const SearchResults: React.FC<SearchResultsProps> = ({
         display: showSearchResults ? 'block' : 'none',
       }}
     >
-      {results.map((product) => (
-        <div key={product.id}>
-          <div onClick={() => handleClick(product.name)}>
-            <Box sx={{ px: 1, mx: 2, border: 'none' }}>{product.name}</Box>
+      {results.map((book) => (
+        <div key={book.id}>
+          <div onClick={() => handleClick(book.name)}>
+            <Box sx={{ px: 1, mx: 2, border: 'none' }}>{book.name}</Box>
           </div>
         </div>
       ))}

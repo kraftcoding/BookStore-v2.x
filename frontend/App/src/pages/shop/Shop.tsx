@@ -6,28 +6,28 @@ import {
   PaginationContainer,
 } from './Shop.styles';
 import { useAppSelector, useAppDispatch } from '../../hooks/reduxHook';
-import { fetchAllProducts } from '../../redux/reducers/productSlice';
+import { fetchAllBooks } from '../../redux/reducers/bookSlice';
 import DropdownOption from '../../components/dropdown-option/DropdownOption';
 import CategoryLists from '../../components/categories/CategoryLists';
-import ProductCard from '../../components/product-card/ProductCard';
+import BookCard from '../../components/book-card/BookCard';
 
 const Shop = () => {
-  const products = useAppSelector((state) => state.productReducer);
+  const books = useAppSelector((state) => state.bookReducer);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
   useEffect(() => {
-    dispatch(fetchAllProducts())
+    dispatch(fetchAllBooks())
       .then(() => setLoading(false))
       .catch(() => setLoading(false));
   }, [dispatch]);
 
-  // Calculate the current page's range of products
+  // Calculate the current page's range of books
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem);
+  const currentBooks = books.slice(indexOfFirstItem, indexOfLastItem);
 
   // Handle page change
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
@@ -60,9 +60,9 @@ const Shop = () => {
             <DropdownOption />
           </Box>
           <CardsWrapper>
-            {currentProducts.length > 0 &&
-              currentProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+            {currentBooks.length > 0 &&
+              currentBooks.map((book) => (
+                <BookCard key={book.id} book={book} />
               ))}
           </CardsWrapper>
         </>
@@ -70,7 +70,7 @@ const Shop = () => {
 
       <PaginationContainer>
         <Pagination
-          count={Math.ceil(products.length / itemsPerPage)}
+          count={Math.ceil(books.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
         />

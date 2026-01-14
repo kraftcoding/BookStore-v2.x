@@ -1,6 +1,6 @@
 import { Category } from './category';
 
-export interface Product {
+export interface Book {
   id: number;
   name: string;
   description: string;
@@ -10,14 +10,14 @@ export interface Product {
 }
 
 export interface SearchResultsProps {
-  filteredProducts: Product[];
+  filteredBooks: Book[];
   searchTerm: string;
   onItemClick: () => void;
   showSearchResults: boolean;
 }
 
-export interface ProductCardProps {
-  product: {
+export interface BookCardProps {
+  book: {
     id: number;
     image: string;
     categoryName: string;

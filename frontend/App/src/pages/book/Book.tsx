@@ -6,14 +6,14 @@ import {
   CardImage,
   DetailsBox,
   PageContainer,
-  ProductDetailsBox,
-  ProductDetailsContainer,
-  SingleProductContainer,
-} from './Product.styles';
+  BookDetailsBox,
+  BookDetailsContainer,
+  SingleBookContainer,
+} from './Book.styles';
 import { useEffect, useState } from 'react';
 
 const Product = () => {
-  const products = useAppSelector((state) => state.productReducer);
+  const books = useAppSelector((state) => state.bookReducer);
   const dispatch = useAppDispatch();
   const { name } = useParams();
   const navigate = useNavigate();
@@ -30,15 +30,15 @@ const Product = () => {
   return (
     <PageContainer>
       <Tab label="BACK" onClick={() => navigate(-1)} />
-      <SingleProductContainer>
-        {products
+      <SingleBookContainer>
+        {books
           .filter((item) => item.name === name)
           .map((item) => (
-            <ProductDetailsContainer key={item.id}>
-              <ProductDetailsBox>
+            <BookDetailsContainer key={item.id}>
+              <BookDetailsBox>
                 <CardImage image={item.image} />
-              </ProductDetailsBox>
-              <ProductDetailsBox>
+              </BookDetailsBox>
+              <BookDetailsBox>
                 <DetailsBox>
                   <Typography variant="h5">{item.name}</Typography>
                 </DetailsBox>
@@ -70,10 +70,10 @@ const Product = () => {
                     </Typography>
                   </Button>
                 </DetailsBox>
-              </ProductDetailsBox>
-            </ProductDetailsContainer>
+              </BookDetailsBox>
+            </BookDetailsContainer>
           ))}
-      </SingleProductContainer>
+      </SingleBookContainer>
     </PageContainer>
   );
 };

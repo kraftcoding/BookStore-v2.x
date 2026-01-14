@@ -12,7 +12,7 @@ import {
   loadFavorite,
 } from '../../redux/reducers/favoriteSlice';
 import { CardsWrapper } from './Favorite.styles';
-import ProductCard from '../../components/product-card/ProductCard';
+import BookCard from '../../components/book-card/BookCard';
 
 const Favorite = () => {
   const dispatch = useAppDispatch();
@@ -38,7 +38,7 @@ const Favorite = () => {
       <Box
         sx={{ width: '100%', display: 'flex', justifyContent: 'center', my: 4 }}
       >
-        <Typography variant="h4">YOUR FAVORITE PRODUCTS</Typography>
+        <Typography variant="h4">YOUR FAVORITE BOOKS</Typography>
       </Box>
       {favoriteItems.length === 0 ? (
         <Box
@@ -64,8 +64,8 @@ const Favorite = () => {
             }}
           >
             <CardsWrapper>
-              {favoriteItems.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {favoriteItems.map((book) => (
+                <BookCard key={book.id} book={book} />
               ))}
             </CardsWrapper>
           </Box>

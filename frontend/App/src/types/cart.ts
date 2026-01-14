@@ -1,15 +1,15 @@
-import { Product } from './product';
+import { Book } from './book';
 
-export interface ICartProducts extends Product {
+export interface ICartBooks extends Book {
   id: number;
   itemQuantity: number;
   cartQuantity: number;
 }
 
 export interface CartState {
-  cartItems: ICartProducts[];
+  cartItems: ICartBooks[];
 }
 
-export interface CartItem extends Product {
+export interface CartItem extends Book {
   itemQuantity: number;
 }

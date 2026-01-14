@@ -7,8 +7,8 @@ import {
   CartItem,
   CartItemDetails,
   CartImage,
-  ProductCardName,
-  ProductCardPrice,
+  BookCardName,
+  BookCardPrice,
   QuantityContainer,
 } from './Cart.styles';
 import { RootState } from '../../redux/store';
@@ -89,10 +89,10 @@ const Cart = () => {
                     </CartItemDetails>
 
                     <CartItemDetails>
-                      <ProductCardName>{item.name}</ProductCardName>
-                      <ProductCardPrice>
+                      <BookCardName>{item.name}</BookCardName>
+                      <BookCardPrice>
                         ${item.price * item.itemQuantity}
-                      </ProductCardPrice>
+                      </BookCardPrice>
                       <Button
                         variant="contained"
                         onClick={() => dispatch(removeItem(item.id))}

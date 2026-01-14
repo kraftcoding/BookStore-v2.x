@@ -1,34 +1,34 @@
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../hooks/reduxHook';
-import { fetchAllProducts } from '../../../redux/reducers/productSlice';
+import { fetchAllBooks } from '../../../redux/reducers/bookSlice';
 import {
   SectionContainer,
   SectionNameContainer,
   SectionName,
-  ProductCardsContainer,
+  BookCardsContainer,
 } from './MostPopularSection.styles';
-import ProductCard from '../../product-card/ProductCard';
+import BookCard from '../../book-card/BookCard';
 
 const MostPopularSection = () => {
-  const products = useAppSelector((state) => state.productReducer);
+  const books = useAppSelector((state) => state.bookReducer);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchAllProducts());
+    dispatch(fetchAllBooks());
   }, [dispatch]);
   return (
     <SectionContainer maxWidth={false}>
       <SectionNameContainer>
         <SectionName variant="h6">Most Popular</SectionName>
       </SectionNameContainer>
-      <ProductCardsContainer>
-        {products.length > 0 &&
-          products
+      <BookCardsContainer>
+        {books.length > 0 &&
+          books
             .slice(8, 14)
-            .map((product) => (
-              <ProductCard key={product.id} product={product} />
+            .map((book) => (
+              <BookCard key={book.id} book={book} />
             ))}
-      </ProductCardsContainer>
+      </BookCardsContainer>
     </SectionContainer>
   );
 };

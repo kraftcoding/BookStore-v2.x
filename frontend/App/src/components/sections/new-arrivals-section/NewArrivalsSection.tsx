@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHook';
-import { fetchAllProducts } from '../../../redux/reducers/productSlice';
+import { fetchAllBooks } from '../../../redux/reducers/bookSlice';
 import {
-  ProductCardsContainer,
+  BookCardsContainer,
   SectionContainer,
   SectionName,
   SectionNameContainer,
 } from '../new-arrivals-section/NewArrivalsSection.styles';
-import ProductCard from '../../product-card/ProductCard';
+import BooktCard from '../../book-card/BookCard';
 import { CircularProgress } from '@mui/material';
 
 const NewArrivalsSection = () => {
-  const products = useAppSelector((state) => state.productReducer);
+  const books = useAppSelector((state) => state.bookReducer);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchAllProducts())
+    dispatch(fetchAllBooks())
       .then(() => setLoading(false))
       .catch(() => setLoading(false));
   }, [dispatch]);
@@ -29,14 +29,14 @@ const NewArrivalsSection = () => {
       {loading ? (
         <CircularProgress />
       ) : (
-        <ProductCardsContainer>
-          {products.length > 0 &&
-            products
+        <BookCardsContainer>
+          {books.length > 0 &&
+            books
               .slice(1, 7)
-              .map((product) => (
-                <ProductCard key={product.id} product={product} />
+              .map((book) => (
+                <BooktCard key={book.id} book={book} />
               ))}
-        </ProductCardsContainer>
+        </BookCardsContainer>
       )}
     </SectionContainer>
   );

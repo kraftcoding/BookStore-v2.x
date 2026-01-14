@@ -4,7 +4,7 @@ import {
   Action,
   combineReducers,
 } from '@reduxjs/toolkit';
-import productReducer from './reducers/productSlice';
+import bookReducer from './reducers/bookSlice';
 import cartReducer from './reducers/cartSlice';
 import categoryReducer from './reducers/categorySlice';
 import userReducer from './reducers/userSlice';
@@ -15,7 +15,7 @@ import favoriteReducer from './reducers/favoriteSlice';
 
 // Combine your reducers
 const rootReducer = combineReducers({
-  productReducer,
+  bookReducer,
   cartReducer,
   categoryReducer,
   userReducer,

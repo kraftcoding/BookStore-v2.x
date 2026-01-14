@@ -1,16 +1,16 @@
 import { Box, Typography } from '@mui/material';
 import {
-  ProdCard,
-  ProductCardButton,
-  ProductCardContent,
-  ProductCardName,
-  ProductCardPrice,
+  BkCard,
+  BookCardButton,
+  BookCardContent,
+  BookCardName,
+  BookCardPrice,
   CardImageContainer,
-} from './ProductCard.styles';
+} from './BookCard.styles';
 import { useAppDispatch } from '../../hooks/reduxHook';
 import { addToCart } from '../../redux/reducers/cartSlice';
 import { useNavigate } from 'react-router-dom';
-import { ProductCardProps } from '../../types/product';
+import { BookCardProps } from '../../types/book';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -21,7 +21,7 @@ import {
 } from '../../redux/reducers/favoriteSlice';
 import { useState } from 'react';
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const BookCard = ({ book }: BookCardProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
@@ -29,26 +29,26 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const handleAddToFavorites = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     if (isFavorite) {
-      dispatch(removeFromFavorites(product.id));
+      dispatch(removeFromFavorites(book.id));
     } else {
-      dispatch(addToFavorites(product));
+      dispatch(addToFavorites(book));
     }
 
     setIsFavorite((prevIsFavorite) => !prevIsFavorite);
   };
 
   const handleImageClick = () => {
-    navigate(`/category/${product.name}`);
+    navigate(`/category/${book.name}`);
   };
 
   return (
-    <ProdCard key={product.id}>
+    <BkCard key={book.id}>
       <CardImageContainer onClick={handleImageClick}>
-        {/* <CardMedia component="img" height="200" image={product.image} /> */}
+        {/* <CardMedia component="img" height="200" image={book.image} /> */}
         <LazyLoadImage
           effect="blur"
-          src={product.image}
-          alt={product.name}
+          src={book.image}
+          alt={book.name}
           height={200}
         />
 
@@ -79,7 +79,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               alignItems: 'center',
             }}
           >
-            {product.categoryName}
+            {book.categoryName}
           </Typography>
           <Box
             onClick={handleAddToFavorites}
@@ -104,25 +104,25 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </Box>
       </CardImageContainer>
 
-      <ProductCardContent>
-        <ProductCardButton
+      <BookCardContent>
+        <BookCardButton
           variant="outlined"
           color="inherit"
-          onClick={() => dispatch(addToCart(product))}
+          onClick={() => dispatch(addToCart(book))}
         >
           ADD TO CART
-        </ProductCardButton>
-        <ProductCardName
+        </BookCardButton>
+        <BookCardName
           sx={{
             textTransform: 'uppercase',
           }}
         >
-          {product.name}
-        </ProductCardName>
-        <ProductCardPrice>$ {product.price}</ProductCardPrice>
-      </ProductCardContent>
-    </ProdCard>
+          {book.name}
+        </BookCardName>
+        <BookCardPrice>$ {book.price}</BookCardPrice>
+      </BookCardContent>
+    </BkCard>
   );
 };
 
-export default ProductCard;
+export default BookCard;

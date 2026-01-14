@@ -5,24 +5,24 @@ import { useAppSelector } from '../../hooks/reduxHook';
 import { CardsWrapper, PageContainer } from './Category.styles';
 import { ChangeEvent, useState } from 'react';
 import { PaginationContainer } from '../shop/Shop.styles';
-import ProductCard from '../../components/product-card/ProductCard';
+import BookCard from '../../components/book-card/BookCard';
 
 const Category = () => {
-  const products = useAppSelector((state) => state.productReducer);
+  const books = useAppSelector((state) => state.bookReducer);
   const { category } = useParams();
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
-  // Calculate the current page's range of products
+  // Calculate the current page's range of books
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const categoryItems = products
-    .filter((product) => product.categoryName === category)
+  const categoryItems = books
+    .filter((book) => book.categoryName === category)
     .slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(
-    products.filter((product) => product.categoryName === category).length /
+    books.filter((book) => book.categoryName === category).length /
       itemsPerPage
   );
   // Handle page change
@@ -62,8 +62,8 @@ const Category = () => {
       </Box>
       <CardsWrapper>
         {categoryItems.length > 0 &&
-          categoryItems.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          categoryItems.map((book) => (
+            <BookCard key={book.id} book={book} />
           ))}
       </CardsWrapper>
       <PaginationContainer>

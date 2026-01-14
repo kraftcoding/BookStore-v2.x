@@ -13,7 +13,7 @@ public static class AuthEndpoints
 
     public static async Task<IResult> RegisterUser(
              RegisterUserRequest request,
-             IUserService UserService,
+             IAuthService UserService,
              CancellationToken cancellationToken)
     {
         var user = request.ToEntity();        
@@ -36,7 +36,7 @@ public static class AuthEndpoints
 
     public static async Task<IResult> LoginUser(
              LoginUserRequest request,
-             IUserService UserService,
+             IAuthService UserService,
              CancellationToken cancellationToken)
     {
         var response = await UserService.LoginAsync(request, cancellationToken);

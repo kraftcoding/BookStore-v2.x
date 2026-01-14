@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Product } from '../../types/product';
+import { Book } from '../../types/book';
 
 export interface FavoriteState {
-  favoriteItems: Product[];
+  favoriteItems: Book[];
 }
 
 const initialState: FavoriteState = {
@@ -13,7 +13,7 @@ const favoriteSlice = createSlice({
   name: 'favorite',
   initialState,
   reducers: {
-    addToFavorites(state, action: PayloadAction<Product>) {
+    addToFavorites(state, action: PayloadAction<Book>) {
       const existingIndex = state.favoriteItems.findIndex(
         (item) => item.id === action.payload.id
       );
@@ -27,7 +27,7 @@ const favoriteSlice = createSlice({
         (item) => item.id !== action.payload
       );
     },
-    loadFavorite: (state, action: PayloadAction<Product[]>) => {
+    loadFavorite: (state, action: PayloadAction<Book[]>) => {
       state.favoriteItems = action.payload;
     },
     clearFavorites: (state) => {

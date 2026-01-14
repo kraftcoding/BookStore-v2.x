@@ -11,12 +11,12 @@ export const PageContainer = styled(Container)`
   margin-top: 20px;
 `;
 
-export const SingleProductContainer = styled(Box)`
+export const SingleBookContainer = styled(Box)`
   background: #f5f5f5;
   padding: 30px 20px;
 `;
 
-export const ProductDetailsContainer = styled(Container)`
+export const BookDetailsContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,7 +28,7 @@ export const ProductDetailsContainer = styled(Container)`
   }
 `;
 
-export const ProductDetailsBox = styled(Box)`
+export const BookDetailsBox = styled(Box)`
   width: 50%
   display: flex;
   alignItems: center;

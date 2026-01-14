@@ -19,7 +19,7 @@ export const SectionName = styled(Typography)`
   font-weight: 700;
 `;
 
-export const ProductCardsContainer = styled(Box)`
+export const BookCardsContainer = styled(Box)`
   display: grid;
   justify-content: center;
   grid-template-columns: repeat(2, 1fr);

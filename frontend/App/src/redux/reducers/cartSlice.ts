@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CartState, ICartProducts } from '../../types/cart';
-import { Product } from '../../types/product';
+import { CartState, ICartBooks } from '../../types/cart';
+import { Book } from '../../types/book';
 
 const initialState: CartState = {
   cartItems: [],
@@ -22,11 +22,11 @@ const cartSlice = createSlice({
         };
         localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
       } else {
-        let tempProductItem = {
+        let tempBookItem = {
           ...action.payload,
           itemQuantity: 1,
         };
-        state.cartItems.push(tempProductItem);
+        state.cartItems.push(tempBookItem);
       }
     },
     clearCart: (state) => {
@@ -37,7 +37,7 @@ const cartSlice = createSlice({
       const itemId = action.payload;
       state.cartItems = state.cartItems.filter((item) => item.id !== itemId);
     },
-    decrementQuantity(state, action: PayloadAction<Product>) {
+    decrementQuantity(state, action: PayloadAction<Book>) {
       const itemIndex = state.cartItems.findIndex(
         (item) => item.id === action.payload.id
       );
@@ -51,7 +51,7 @@ const cartSlice = createSlice({
         state.cartItems = nextCartItems;
       }
     },
-    loadCart: (state, action: PayloadAction<ICartProducts[]>) => {
+    loadCart: (state, action: PayloadAction<ICartBooks[]>) => {
       state.cartItems = action.payload;
     },
   },

@@ -49,14 +49,14 @@ export const QuantityContainer = styled(Box)`
   height: 100px;
 `;
 
-export const ProductCardName = styled(Typography)`
+export const BookCardName = styled(Typography)`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 300px;
 `;
 
-export const ProductCardPrice = styled(Typography)`
+export const BookCardPrice = styled(Typography)`
   display: flex;
   justify-content: center;
   align-items: center;

@@ -8,7 +8,7 @@ import {
   highestPriceFirst,
   alphabetical,
   alphabetical2,
-} from '../../redux/reducers/productSlice';
+} from '../../redux/reducers/bookSlice';
 import { DropdownOptionButton } from './DropdownOption.styles';
 
 export default function FadeMenu() {

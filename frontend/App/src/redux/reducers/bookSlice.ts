@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Product } from '../../types/product';
+import { Book } from '../../types/book';
 import axiosInstance from '../../common/axiosInstance';
 
-export const fetchAllProducts = createAsyncThunk(
-  'fetchAllProducts ',
+export const fetchAllBooks = createAsyncThunk(
+  'fetchAllBooks',
   async () => {
     try {
-      const res = await axiosInstance.get('/Products');
+      const res = await axiosInstance.get('/Books');
       return res.data;
     } catch (error) {
       console.log(error);
@@ -14,10 +14,10 @@ export const fetchAllProducts = createAsyncThunk(
   }
 );
 
-const initialState: Product[] = [];
+const initialState: Book[] = [];
 
-const productSlice = createSlice({
-  name: 'product',
+const bookSlice = createSlice({
+  name: 'book',
   initialState,
   reducers: {
     highestPriceFirst: (state) => {
@@ -33,19 +33,19 @@ const productSlice = createSlice({
       state.sort((a, b) => a.name.localeCompare(b.name));
     },
     searchByName: (state, action) => {
-      const filteredProducts = state.filter((product) =>
-        product.name.toLowerCase().includes(action.payload.toLowerCase())
+      const filteredBooks = state.filter((book) =>
+        book.name.toLowerCase().includes(action.payload.toLowerCase())
       );
       return {
         ...state,
-        filteredProducts:
-          action.payload.length > 0 ? filteredProducts : [...state],
+        filteredBooks:
+          action.payload.length > 0 ? filteredBooks : [...state],
       };
     },
   },
 
   extraReducers: (build) => {
-    build.addCase(fetchAllProducts.fulfilled, (state, action) => {
+    build.addCase(fetchAllBooks.fulfilled, (state, action) => {
       console.log('data is fetched');
       if (action.payload && 'message' in action.payload) {
         return state;
@@ -54,22 +54,22 @@ const productSlice = createSlice({
       }
       return action.payload;
     });
-    build.addCase(fetchAllProducts.rejected, (state, action) => {
+    build.addCase(fetchAllBooks.rejected, (state, action) => {
       console.log('error');
       return state;
     });
-    build.addCase(fetchAllProducts.pending, (state, action) => {
+    build.addCase(fetchAllBooks.pending, (state, action) => {
       console.log('loading');
       return state;
     });
   },
 });
 
-const productReducer = productSlice.reducer;
+const bookReducer = bookSlice.reducer;
 export const {
   lowestPriceFirst,
   highestPriceFirst,
   alphabetical,
   alphabetical2,
-} = productSlice.actions;
-export default productReducer;
+} = bookSlice.actions;
+export default bookReducer;

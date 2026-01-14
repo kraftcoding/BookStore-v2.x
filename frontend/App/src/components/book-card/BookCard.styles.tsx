@@ -9,7 +9,7 @@ import {
 import { styled } from '@mui/material/styles';
 import { breakpoints as bp } from '../../utils/layout';
 
-export const ProdCard = styled(Card)`
+export const BkCard = styled(Card)`
   width: 150px;
   height: 300px;
   margin: 5px;
@@ -42,11 +42,11 @@ export const CardImage = styled(CardMedia)`
   }
 `;
 
-export const ProductCardContent = styled(CardContent)`
+export const BookCardContent = styled(CardContent)`
   width: 100%;
 `;
 
-export const ProductCardButton = styled(Button)`
+export const BookCardButton = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,7 +57,7 @@ export const ProductCardButton = styled(Button)`
   }
 `;
 
-export const ProductCardName = styled(Typography)`
+export const BookCardName = styled(Typography)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,7 +65,7 @@ export const ProductCardName = styled(Typography)`
   padding: 2px;
 `;
 
-export const ProductCardPrice = styled(Typography)`
+export const BookCardPrice = styled(Typography)`
   display: flex;
   justify-content: center;
   align-items: center;
