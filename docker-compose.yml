@@ -36,7 +36,7 @@ services:
     image: postgres:latest
     container_name: books.db
     environment:
-      - POSTGRES_DB=books
+      - POSTGRES_DB=BookStore-v2.x
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres   
     ports:
