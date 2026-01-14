@@ -19,3 +19,14 @@ public sealed record UserResponse(
     string Email,
     string Password,
     string Initials);
+
+public sealed record LoginUserRequest(  
+    string Email,
+    string Password);
+
+public sealed record UserAuthResponse( 
+    string Token,
+    int UserId,
+    string Name,
+    string Email,
+    string Initials);

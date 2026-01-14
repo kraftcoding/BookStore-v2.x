@@ -1,16 +1,20 @@
-﻿namespace Users.Api.Docker.Endpoints;
+﻿using Microsoft.AspNetCore.Builder;
 
-public static class UserEndpoints
+namespace Users.Api.Docker.Endpoints;
+
+public static class AuthEndpoints
 {
     public static void MapUserEndpoints(this IEndpointRouteBuilder app)
     {
-        var UserGroup = app.MapGroup("api/Users");
+        var UserGroup = app.MapGroup("api/Auth");
+
+        UserGroup.MapPost("", RegisterUser).WithName(nameof(RegisterUser));
+
+        UserGroup.MapPost("/loginUser", LoginUser).WithName(nameof(LoginUser));
 
         //UserGroup.MapGet("", GetAllUsers).WithName(nameof(GetAllUsers));
 
-        //UserGroup.MapGet("{id}", GetUserById).WithName(nameof(GetUserById));
-
-        UserGroup.MapPost("", RegisterUser).WithName(nameof(RegisterUser));
+        //UserGroup.MapGet("{id}", GetUserById).WithName(nameof(GetUserById));        
 
         //UserGroup.MapPut("{id}", UpdateUser).WithName(nameof(UpdateUser));
 
@@ -26,10 +30,34 @@ public static class UserEndpoints
 
         var response = await UserService.RegisterAsync(user, cancellationToken);
 
+        switch (response.Status)
+        {
+            case "Error":
+                return Results.BadRequest(response.Message);
+            case "Conflict":
+                return Results.Conflict(response.Message);
+        }
+
         return Results.CreatedAtRoute(
             nameof(RegisterUser),
             new { id = user.Id },
             user);
+    }
+
+    public static async Task<IResult> LoginUser(
+             LoginUserRequest request,
+             IUserService UserService,
+             CancellationToken cancellationToken)
+    {
+        var response = await UserService.LoginAsync(request, cancellationToken);
+        switch (response.Status)
+        {
+            case "Error":
+                return Results.BadRequest(response.Message);
+            case "Unauthorized":
+                return Results.Unauthorized();
+        }
+        return Results.Ok(response);
     }
 
     /*

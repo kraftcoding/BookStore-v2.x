@@ -4,7 +4,7 @@ import axiosInstance from '../../common/axiosInstance';
 
 export const fetchUsers = createAsyncThunk('fetchUsers', async () => {
   try {
-    const response = await axiosInstance.get('/Users');
+    const response = await axiosInstance.get('/Auth');
     return response.data;
   } catch (error) {
     throw error;
