@@ -43,7 +43,7 @@ const Product = () => {
                   <Typography variant="h5">{item.title}</Typography>
                 </DetailsBox>
                 <DetailsBox>
-                  <Typography variant="h6">${item.isbn}</Typography>
+                  <Typography variant="h6">ISBN:{item.isbn}</Typography>
                 </DetailsBox>
                 <DetailsBox>
                   <Typography variant="subtitle1" gutterBottom>
