@@ -16,7 +16,7 @@ namespace Books.Api.Docker.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Books.Api.Docker.Entitties.Book", b =>
+            modelBuilder.Entity("Books.Api.Docker.Entities.Book", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,7 +53,7 @@ namespace Books.Api.Docker.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("Books.Api.Docker.Entitties.User", b =>
+            modelBuilder.Entity("Books.Api.Docker.Entities.User", b =>
             {
                 b.Property<int>("Id")
                     .ValueGeneratedOnAdd()
@@ -81,6 +81,24 @@ namespace Books.Api.Docker.Migrations
 
                 b.ToTable("Users");
             });
+
+            modelBuilder.Entity("Books.Api.Docker.Entities.Category", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
+
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("text");
+
+                b.HasKey("Id");
+
+                b.ToTable("Categories");
+            });
+
 
         }
     }

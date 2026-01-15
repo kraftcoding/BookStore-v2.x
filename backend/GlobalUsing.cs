@@ -11,4 +11,5 @@ global using Books.Api.Docker.Services.Caching;
 global using Books.Api.Docker.Database;
 global using Books.Api.Docker.Endpoints;
 global using Books.Api.Docker.Extensions;
-global using Users.Api.Docker.Endpoints;
+global using Auth.Api.Docker.Endpoints;
+global using Categories.Api.Docker.Endpoints;

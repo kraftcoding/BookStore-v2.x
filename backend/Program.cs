@@ -14,6 +14,7 @@ builder.Services
 builder.Services.AddScoped<IRedisCacheService, RedisCacheService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 
@@ -33,5 +34,7 @@ app.UseHttpsRedirection();
 app.MapBookEndpoints();
 
 app.MapUserEndpoints();
+
+app.MapCategoryEndpoints();
 
 app.Run();

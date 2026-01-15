@@ -44,6 +44,19 @@ namespace Books.Api.Docker.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                });
         }
 
         /// <inheritdoc />
@@ -53,6 +66,9 @@ namespace Books.Api.Docker.Migrations
                 name: "Books");
             migrationBuilder.DropTable(
                 name: "Users");
+            migrationBuilder.DropTable(
+                name: "Categories");
+
         }
     }
 }

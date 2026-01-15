@@ -24,7 +24,7 @@ namespace Books.Api.Docker.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Books.Api.Docker.Entitties.Book", b =>
+            modelBuilder.Entity("Books.Api.Docker.Entities.Book", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

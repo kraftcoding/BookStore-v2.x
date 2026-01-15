@@ -1,4 +1,4 @@
-﻿namespace Users.Api.Docker.Endpoints;
+﻿namespace Auth.Api.Docker.Endpoints;
 
 public static class AuthEndpoints
 {
