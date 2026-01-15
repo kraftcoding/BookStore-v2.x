@@ -21,20 +21,20 @@ const bookSlice = createSlice({
   initialState,
   reducers: {
     highestPriceFirst: (state) => {
-      state.sort((a, b) => (a.price > b.price ? -1 : 1));
+      state.sort((a, b) => (a.isbn > b.isbn ? -1 : 1));
     },
     lowestPriceFirst: (state) => {
-      state.sort((a, b) => (a.price < b.price ? -1 : 1));
+      state.sort((a, b) => (a.isbn < b.isbn ? -1 : 1));
     },
     alphabetical: (state) => {
-      state.sort((a, b) => b.name.localeCompare(a.name));
+      state.sort((a, b) => b.title.localeCompare(a.title));
     },
     alphabetical2: (state) => {
-      state.sort((a, b) => a.name.localeCompare(b.name));
+      state.sort((a, b) => a.title.localeCompare(b.title));
     },
     searchByName: (state, action) => {
       const filteredBooks = state.filter((book) =>
-        book.name.toLowerCase().includes(action.payload.toLowerCase())
+        book.title.toLowerCase().includes(action.payload.toLowerCase())
       );
       return {
         ...state,

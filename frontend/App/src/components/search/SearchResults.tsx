@@ -11,17 +11,17 @@ const SearchResults: React.FC<SearchResultsProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const handleClick = (bookName: string) => {
-    navigate(`/book/${bookName}`);
+  const handleClick = (bookTitle: string) => {
+    navigate(`/book/${bookTitle}`);
     onItemClick();
   };
 
   const startsWithResults = filteredBooks.filter((book) =>
-    book.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+    book.title.toLowerCase().startsWith(searchTerm.toLowerCase())
   );
 
   const exactMatchResults = filteredBooks.filter(
-    (book) => book.name.toLowerCase() === searchTerm.toLowerCase()
+    (book) => book.title.toLowerCase() === searchTerm.toLowerCase()
   );
 
   const results = [...startsWithResults, ...exactMatchResults];
@@ -39,8 +39,8 @@ const SearchResults: React.FC<SearchResultsProps> = ({
     >
       {results.map((book) => (
         <div key={book.id}>
-          <div onClick={() => handleClick(book.name)}>
-            <Box sx={{ px: 1, mx: 2, border: 'none' }}>{book.name}</Box>
+          <div onClick={() => handleClick(book.title)}>
+            <Box sx={{ px: 1, mx: 2, border: 'none' }}>{book.title}</Box>
           </div>
         </div>
       ))}

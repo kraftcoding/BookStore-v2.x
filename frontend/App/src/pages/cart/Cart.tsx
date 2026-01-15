@@ -30,9 +30,9 @@ const Cart = () => {
   const dispatch = useAppDispatch();
   const { cartItems } = useAppSelector((state: RootState) => state.cartReducer);
 
-  const getTotalPrice = () => {
+  const getTotalBooks = () => {
     return cartItems.reduce(
-      (accumulator, item) => accumulator + item.itemQuantity * item.price,
+      (accumulator, item) => accumulator + item.itemQuantity,
       0
     );
   };
@@ -89,9 +89,9 @@ const Cart = () => {
                     </CartItemDetails>
 
                     <CartItemDetails>
-                      <BookCardName>{item.name}</BookCardName>
+                      <BookCardName>{item.title}</BookCardName>
                       <BookCardPrice>
-                        ${item.price * item.itemQuantity}
+                        ${item.isbn}
                       </BookCardPrice>
                       <Button
                         variant="contained"
@@ -124,7 +124,7 @@ const Cart = () => {
           >
             <Box>
               <Typography variant="h5" sx={{ m: 2 }}>
-                Total:${getTotalPrice()}
+                Total Books:{getTotalBooks()}
               </Typography>
               <Button variant="contained" sx={{ width: '100%' }}>
                 Checkout

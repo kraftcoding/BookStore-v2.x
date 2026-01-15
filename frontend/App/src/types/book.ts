@@ -2,11 +2,12 @@ import { Category } from './category';
 
 export interface Book {
   id: number;
-  name: string;
+  title: string;
   description: string;
-  price: number;
-  categoryName: string;
+  isbn: number;
+  category: string;
   image: string;
+  author: string;
 }
 
 export interface SearchResultsProps {
@@ -19,10 +20,11 @@ export interface SearchResultsProps {
 export interface BookCardProps {
   book: {
     id: number;
-    image: string;
-    categoryName: string;
-    name: string;
-    price: number;
+    title: string;
     description: string;
+    isbn: number;
+    category: string;
+    image: string;
+    author: string;
   };
 }

@@ -6,7 +6,7 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import LoaningCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import {
   MenuContainer,
@@ -84,7 +84,7 @@ const Navbar = () => {
 
     // Perform filtering based on the search term
     const filteredBooks = products.filter((product: Book) => {
-      const title = product.name.toLowerCase();
+      const title = product.title.toLowerCase();
       const query = searchValue.toLowerCase();
       return title.startsWith(query) || title === query;
     });
@@ -97,7 +97,7 @@ const Navbar = () => {
     event.preventDefault();
     // Perform search operation based on the search term
     const filteredProducts = products.filter((product: Book) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      product.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredProducts(filteredProducts);
     setSearchTerm('');
@@ -187,13 +187,13 @@ const Navbar = () => {
               {loggedIn ? (
                 <Badge badgeContent={getItemsCount() || '0'} color="error">
                   <CartLink to="/cart">
-                    <ShoppingCartOutlinedIcon />
+                    <LoaningCartOutlinedIcon />
                   </CartLink>
                 </Badge>
               ) : (
                 <Badge badgeContent={cartItemsCount || '0'} color="error">
                   <CartLink to="/cart">
-                    <ShoppingCartOutlinedIcon />
+                    <LoaningCartOutlinedIcon />
                   </CartLink>
                 </Badge>
               )}
@@ -244,7 +244,7 @@ const Navbar = () => {
           </Box>
           <Box>
             <Typography variant="h6" noWrap sx={{ m: 1 }}>
-              <MenuLink to="/shop">LOAN</MenuLink>
+              <MenuLink to="/loan">LOAN</MenuLink>
             </Typography>
           </Box>
           <Box>

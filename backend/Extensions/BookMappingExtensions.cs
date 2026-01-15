@@ -9,7 +9,9 @@ public static class BookMappingExtensions
             book.Title,
             book.ISBN,
             book.Description,
-            book.Author);
+            book.Author,
+            book.Category,
+            book.Image);
     }
 
     public static Book ToEntity(this CreateBookRequest request)
@@ -19,7 +21,9 @@ public static class BookMappingExtensions
             Title = request.Title,
             ISBN = request.ISBN,
             Description = request.Description,
-            Author = request.Author
+            Author = request.Author,
+            Category = request.Category,
+            Image = request.Image
         };
     }
 
@@ -31,7 +35,9 @@ public static class BookMappingExtensions
             Title = request.Title,
             ISBN = request.ISBN,
             Description = request.Description,
-            Author = request.Author
+            Author = request.Author,
+            Category = request.Category,
+            Image = request.Image
         };
     }
 }

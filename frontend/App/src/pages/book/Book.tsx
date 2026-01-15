@@ -32,7 +32,7 @@ const Product = () => {
       <Tab label="BACK" onClick={() => navigate(-1)} />
       <SingleBookContainer>
         {books
-          .filter((item) => item.name === name)
+          .filter((item) => item.title === name)
           .map((item) => (
             <BookDetailsContainer key={item.id}>
               <BookDetailsBox>
@@ -40,10 +40,10 @@ const Product = () => {
               </BookDetailsBox>
               <BookDetailsBox>
                 <DetailsBox>
-                  <Typography variant="h5">{item.name}</Typography>
+                  <Typography variant="h5">{item.title}</Typography>
                 </DetailsBox>
                 <DetailsBox>
-                  <Typography variant="h6">${item.price}</Typography>
+                  <Typography variant="h6">${item.isbn}</Typography>
                 </DetailsBox>
                 <DetailsBox>
                   <Typography variant="subtitle1" gutterBottom>

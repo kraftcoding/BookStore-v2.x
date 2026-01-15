@@ -4,14 +4,14 @@ import {
   PageContainer,
   CardsWrapper,
   PaginationContainer,
-} from './Shop.styles';
+} from './Loan.styles';
 import { useAppSelector, useAppDispatch } from '../../hooks/reduxHook';
 import { fetchAllBooks } from '../../redux/reducers/bookSlice';
 import DropdownOption from '../../components/dropdown-option/DropdownOption';
 import CategoryLists from '../../components/categories/CategoryLists';
 import BookCard from '../../components/book-card/BookCard';
 
-const Shop = () => {
+const Loan = () => {
   const books = useAppSelector((state) => state.bookReducer);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
@@ -79,4 +79,4 @@ const Shop = () => {
   );
 };
 
-export default Shop;
+export default Loan;

@@ -43,7 +43,7 @@ export const CategoryCard = styled(Card)`
   // }
 `;
 
-export const CategoryName = styled(Typography)`
+export const Category = styled(Typography)`
   display: flex;
   justify-content: center;
   align-items: center;

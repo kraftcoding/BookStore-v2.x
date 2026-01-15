@@ -65,7 +65,7 @@ export const BookCardName = styled(Typography)`
   padding: 2px;
 `;
 
-export const BookCardPrice = styled(Typography)`
+export const BookCardIsbn = styled(Typography)`
   display: flex;
   justify-content: center;
   align-items: center;

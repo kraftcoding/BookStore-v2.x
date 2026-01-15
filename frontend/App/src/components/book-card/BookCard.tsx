@@ -4,7 +4,7 @@ import {
   BookCardButton,
   BookCardContent,
   BookCardName,
-  BookCardPrice,
+  BookCardIsbn,
   CardImageContainer,
 } from './BookCard.styles';
 import { useAppDispatch } from '../../hooks/reduxHook';
@@ -38,7 +38,7 @@ const BookCard = ({ book }: BookCardProps) => {
   };
 
   const handleImageClick = () => {
-    navigate(`/category/${book.name}`);
+    navigate(`/category/${book.title}`);
   };
 
   return (
@@ -48,7 +48,7 @@ const BookCard = ({ book }: BookCardProps) => {
         <LazyLoadImage
           effect="blur"
           src={book.image}
-          alt={book.name}
+          alt={book.title}
           height={200}
         />
 
@@ -79,7 +79,7 @@ const BookCard = ({ book }: BookCardProps) => {
               alignItems: 'center',
             }}
           >
-            {book.categoryName}
+            {book.category}
           </Typography>
           <Box
             onClick={handleAddToFavorites}
@@ -117,9 +117,9 @@ const BookCard = ({ book }: BookCardProps) => {
             textTransform: 'uppercase',
           }}
         >
-          {book.name}
+          {book.title}
         </BookCardName>
-        <BookCardPrice>$ {book.price}</BookCardPrice>
+        <BookCardIsbn>ISBN: {book.isbn}</BookCardIsbn>
       </BookCardContent>
     </BkCard>
   );

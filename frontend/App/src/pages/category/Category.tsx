@@ -4,7 +4,7 @@ import DropdownOption from '../../components/dropdown-option/DropdownOption';
 import { useAppSelector } from '../../hooks/reduxHook';
 import { CardsWrapper, PageContainer } from './Category.styles';
 import { ChangeEvent, useState } from 'react';
-import { PaginationContainer } from '../shop/Shop.styles';
+import { PaginationContainer } from '../loan/Loan.styles';
 import BookCard from '../../components/book-card/BookCard';
 
 const Category = () => {
@@ -19,10 +19,10 @@ const Category = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const categoryItems = books
-    .filter((book) => book.categoryName === category)
+    .filter((book) => book.category === category)
     .slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(
-    books.filter((book) => book.categoryName === category).length /
+    books.filter((book) => book.category === category).length /
       itemsPerPage
   );
   // Handle page change
