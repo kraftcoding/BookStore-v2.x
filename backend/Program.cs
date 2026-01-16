@@ -32,9 +32,7 @@ app.MapHealthChecks("health", new HealthCheckOptions
 app.UseHttpsRedirection();
 
 app.MapBookEndpoints();
-
 app.MapUserEndpoints();
-
 app.MapCategoryEndpoints();
 
 app.Run();
