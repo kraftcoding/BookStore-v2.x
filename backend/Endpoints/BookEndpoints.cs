@@ -1,4 +1,6 @@
-﻿namespace Books.Api.Docker.Endpoints;
+﻿using Books.Api.Docker.Entities;
+
+namespace Books.Api.Docker.Endpoints;
 
 public static class BookEndpoints
 {
@@ -19,9 +21,33 @@ public static class BookEndpoints
 
     public static async Task<IResult> GetAllBooks(
         IBookService bookService,
+        IRedisCacheService cacheService,
         CancellationToken cancellationToken)
     {
+        var cacheKey = "books";
+
+        var response = await cacheService.GetDataAsync<List<BookResponse>>(
+            cacheKey,
+            cancellationToken);
+
+        if (response is not null)
+        {
+            return Results.Ok(response);
+        }
+
         var books = await bookService.GetBooksAsync(cancellationToken);
+
+        if (books is null)
+        {
+            return Results.NotFound();
+        }
+
+        response = books.Select(b => b.ToResponseDto()).ToList();
+
+        await cacheService.SetDataAsync<List<BookResponse>>(
+            cacheKey,
+            response,
+            cancellationToken);
 
         return Results.Ok(books.Select(b => b.ToResponseDto()));
     }
