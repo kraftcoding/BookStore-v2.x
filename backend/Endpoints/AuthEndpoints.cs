@@ -9,6 +9,8 @@ public static class AuthEndpoints
         UserGroup.MapPost("", RegisterUser).WithName(nameof(RegisterUser));
 
         UserGroup.MapPost("/loginUser", LoginUser).WithName(nameof(LoginUser));
+
+        UserGroup.MapPost("/updateProfile", UpdateProfile).WithName(nameof(LoginUser));
     }
 
     public static async Task<IResult> RegisterUser(
@@ -40,6 +42,22 @@ public static class AuthEndpoints
              CancellationToken cancellationToken)
     {
         var response = await UserService.LoginAsync(request, cancellationToken);
+        switch (response.Status)
+        {
+            case "Error":
+                return Results.BadRequest(response.Message);
+            case "Unauthorized":
+                return Results.Unauthorized();
+        }
+        return Results.Ok(response);
+    }
+
+    public static async Task<IResult> UpdateProfile(
+            LoginUserRequest request,
+            IAuthService UserService,
+            CancellationToken cancellationToken)
+    {
+        var response = await UserService.UpdateAsync(request, cancellationToken);
         switch (response.Status)
         {
             case "Error":

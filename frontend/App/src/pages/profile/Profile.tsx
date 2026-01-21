@@ -2,19 +2,27 @@ import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { logout } from '../../redux/reducers/authSlice';
+import { logout, updateProfile } from '../../redux/reducers/authSlice';
 import { useState } from 'react';
 
-export const PageContainer = styled(Container)`
-  height: 100%;
-`;
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import {  } from '../../redux/reducers/authSlice';
+import { IUserRegister } from '../../types/auth';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { PageContainer, RegisterContainer, UserInfoContainer } from './Profile.styles';
 
-export const UserInfoContainer = styled(Container)`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`;
+const registerSchema = yup.object({
+  name: yup.string().required('Name is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
+  password: yup
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .max(32, 'Password must not exceed 32 characters')
+    .required('Password is required'),
+});
+
 const Profile = () => {
   const authInfo = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
@@ -26,17 +34,30 @@ const Profile = () => {
   };
   
   function handleChange(evt: { target: { value: any; name: any; }; }) {
-  const value = evt.target.value; 
-  setState({
-    ...state,
-    [evt.target.name]: value
-  });
-}
+    const value = evt.target.value; 
+    setState({
+      ...state,
+      [evt.target.name]: value
+    });
+  }
 
   const [state, setState] = useState({
     password: authInfo.userInfo?.password,
     name: authInfo.userInfo?.name,
     email: authInfo.userInfo?.email
+  });
+
+  const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm<IUserRegister>({
+      resolver: yupResolver(registerSchema),
+    });
+
+  const onSubmit = handleSubmit((data) => {
+    dispatch(updateProfile(data));
+    navigate('/home');
   });
 
   return (
@@ -67,47 +88,49 @@ const Profile = () => {
                   <Typography variant="h5">User Information</Typography>
                 </Box>
               </Box>
-              <Box
-                maxWidth="lg"
-                key={authInfo.userInfo?.id}
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  mb: 1,
-                  p: 1,
-                }}
-              >
-                <TextField
-                  id="outlined"
-                  label="NAME"                  
-                  sx={{ mb: 2 }}
-                  type="text"                  
-                  value={state.name}
-                  name="name"
-                  onChange={handleChange}
-                />
-                <TextField
-                  id="outlined"
-                  label="EMAIL"
-                  sx={{ mb: 2 }}
-                  type="email"
-                  value={state.email}
-                  name="email"
-                  onChange={handleChange}
-                />
-                <TextField
-                  id="outlined"
-                  label="PASSWORD"
-                  sx={{ mb: 2 }}
-                  type="password"
-                  value={state.password}
-                  name="password"
-                  onChange={handleChange}
-                />
-                <Button variant="contained">Edit</Button>
-              </Box>
+              <form onSubmit={onSubmit}>
+                <Box
+                  maxWidth="lg"
+                  key={authInfo.userInfo?.id}
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    mb: 1,
+                    p: 1,
+                  }}
+                >
+                  <TextField
+                    id="outlined"
+                    label="NAME"                  
+                    sx={{ mb: 2 }}
+                    type="text"                  
+                    value={state.name}
+                    name="name"
+                    onChange={handleChange}                    
+                  />
+                  <TextField
+                    id="outlined"
+                    label="EMAIL"
+                    sx={{ mb: 2 }}
+                    type="email"
+                    value={state.email}
+                    name="email"
+                    onChange={handleChange}
+                  />
+                  <TextField
+                    id="outlined"
+                    label="PASSWORD"
+                    sx={{ mb: 2 }}
+                    type="password"
+                    value={state.password}
+                    name="password"
+                    onChange={handleChange}
+                  />
+                  <Button variant="contained">Edit</Button>
+                </Box>
+              </form>
               <Box
                 sx={{
                   width: '100%',

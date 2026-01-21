@@ -70,6 +70,33 @@ public sealed class AuthService(ApplicationDbContext context, IConfiguration con
         }       
     }
 
+    public async Task<Response> UpdateAsync(LoginUserRequest user, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var userExists = await context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(b => b.Email == user.Email, cancellationToken);
+
+            if (userExists == null)
+            {
+                //user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                //context.Users.Add(user);
+                //await context.SaveChangesAsync(cancellationToken);
+
+                return new Response { Status = ResponseStatus.Warning, Message = "User doesn't exist!" };
+            }
+            else
+            {
+                return new Response { Status = ResponseStatus.Success, Message = "User updated successfully!" };               
+            }
+        }
+        catch (Exception ex)
+        {
+            return new Response { Status = ResponseStatus.Error, Message = "User update failed! Please check user details and try again." };
+        }
+    }
+
     private string GenerateToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
