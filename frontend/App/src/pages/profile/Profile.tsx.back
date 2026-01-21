@@ -3,7 +3,6 @@ import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { logout } from '../../redux/reducers/authSlice';
-import { useState } from 'react';
 
 export const PageContainer = styled(Container)`
   height: 100%;
@@ -24,20 +23,6 @@ const Profile = () => {
     dispatch(logout());
     navigate('/');
   };
-  
-  function handleChange(evt: { target: { value: any; name: any; }; }) {
-  const value = evt.target.value; 
-  setState({
-    ...state,
-    [evt.target.name]: value
-  });
-}
-
-  const [state, setState] = useState({
-    password: authInfo.userInfo?.password,
-    name: authInfo.userInfo?.name,
-    email: authInfo.userInfo?.email
-  });
 
   return (
     <PageContainer>
@@ -81,30 +66,24 @@ const Profile = () => {
               >
                 <TextField
                   id="outlined"
-                  label="NAME"                  
+                  label="NAME"
                   sx={{ mb: 2 }}
-                  type="text"                  
-                  value={state.name}
-                  name="name"
-                  onChange={handleChange}
+                  type="text"
+                  value={authInfo.userInfo?.name}
                 />
                 <TextField
                   id="outlined"
                   label="EMAIL"
                   sx={{ mb: 2 }}
                   type="email"
-                  value={state.email}
-                  name="email"
-                  onChange={handleChange}
+                  value={authInfo.userInfo?.email}
                 />
                 <TextField
                   id="outlined"
                   label="PASSWORD"
                   sx={{ mb: 2 }}
                   type="password"
-                  value={state.password}
-                  name="password"
-                  onChange={handleChange}
+                  value=""
                 />
                 <Button variant="contained">Edit</Button>
               </Box>

@@ -16,6 +16,7 @@ export interface User {
   initials: string;
   token: string;
   cart: [];
+  password: string;
 }
 
 export interface AuthState {
@@ -69,7 +70,7 @@ export const loginUser = createAsyncThunk<
     const { data, status, message } = response.data;
 
     if (status == "Success") {
-      const { token, userId, name, email, initials } = data;
+      const { token, userId, name, email, initials, password } = data;
 
       const user: User = {
         id: userId.toString(),
@@ -78,6 +79,7 @@ export const loginUser = createAsyncThunk<
         initials,
         token,
         cart: [],
+        password
       };
 
       return user;
