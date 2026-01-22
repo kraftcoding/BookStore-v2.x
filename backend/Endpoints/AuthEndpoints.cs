@@ -10,7 +10,7 @@ public static class AuthEndpoints
 
         UserGroup.MapPost("/loginUser", LoginUser).WithName(nameof(LoginUser));
 
-        UserGroup.MapPost("/updateProfile", UpdateProfile).WithName(nameof(LoginUser));
+        UserGroup.MapPut("", UpdateProfile).WithName(nameof(UpdateProfile));
     }
 
     public static async Task<IResult> RegisterUser(
@@ -53,7 +53,7 @@ public static class AuthEndpoints
     }
 
     public static async Task<IResult> UpdateProfile(
-            LoginUserRequest request,
+            UpdateProfileRequest request,
             IAuthService UserService,
             CancellationToken cancellationToken)
     {

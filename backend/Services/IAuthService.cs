@@ -7,5 +7,5 @@ public interface IAuthService
 {
     public Task<Response> RegisterAsync(User user, CancellationToken cancellationToken);
     public Task<Response> LoginAsync(LoginUserRequest user, CancellationToken cancellationToken);
-    public Task<Response> UpdateAsync(LoginUserRequest user, CancellationToken cancellationToken);
+    public Task<Response> UpdateAsync(UpdateProfileRequest user, CancellationToken cancellationToken);
 }

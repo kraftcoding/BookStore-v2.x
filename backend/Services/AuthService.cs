@@ -70,7 +70,7 @@ public sealed class AuthService(ApplicationDbContext context, IConfiguration con
         }       
     }
 
-    public async Task<Response> UpdateAsync(LoginUserRequest user, CancellationToken cancellationToken)
+    public async Task<Response> UpdateAsync(UpdateProfileRequest user, CancellationToken cancellationToken)
     {
         try
         {
@@ -80,14 +80,17 @@ public sealed class AuthService(ApplicationDbContext context, IConfiguration con
 
             if (userExists == null)
             {
-                //user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-                //context.Users.Add(user);
-                //await context.SaveChangesAsync(cancellationToken);
-
                 return new Response { Status = ResponseStatus.Warning, Message = "User doesn't exist!" };
             }
             else
             {
+                userExists.Name = user.Name;
+                userExists.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                userExists.Initials = user.Initials;                
+
+                context.Users.Update(userExists);
+                await context.SaveChangesAsync(cancellationToken);
+
                 return new Response { Status = ResponseStatus.Success, Message = "User updated successfully!" };               
             }
         }

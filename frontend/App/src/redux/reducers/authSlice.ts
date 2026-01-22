@@ -9,6 +9,12 @@ export interface AuthCreds {
   password: string;
 }
 
+export interface IProfileInputs {
+  name: string;
+  email: string;
+  password: string;
+}
+
 export interface User {
   id: string;
   name: string;
@@ -60,16 +66,17 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+
 export const updateProfile = createAsyncThunk(
   'updateProfile',
-  async (user: IUserRegister) => {
+  async (user: IProfileInputs) => {
     try {
       const initials = user.name
         .split(' ')
         .map((name) => name[0].toUpperCase())
         .join('');
 
-      const UserResponse = await axiosInstance.post('/Auth', {
+      const UserResponse = await axiosInstance.put('/Auth', {
         ...user,
         initials: initials,
       });

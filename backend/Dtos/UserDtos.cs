@@ -30,3 +30,9 @@ public sealed record UserAuthResponse(
     string Name,
     string Email,
     string Initials);
+
+public sealed record UpdateProfileRequest(
+    string Name,
+    string Email,
+    string Password,
+    string Initials);
