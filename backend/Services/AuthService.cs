@@ -1,8 +1,9 @@
 ﻿using Books.Api.Docker.Models;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Books.Api.Docker.Services;
 
@@ -52,9 +53,13 @@ public sealed class AuthService(ApplicationDbContext context, IConfiguration con
             }
 
             var token = GenerateToken(dbUser);
+            var refreshToken = GenerateRefreshToken();
+            var accessTokenExpiry = DateTime.UtcNow.AddDays(1);
 
             var authResponse = new UserAuthResponse(
                 token,
+                refreshToken,
+                accessTokenExpiry,
                 dbUser.Id,
                 dbUser.Name,
                 dbUser.Email,
@@ -69,7 +74,7 @@ public sealed class AuthService(ApplicationDbContext context, IConfiguration con
             return new Response { Status = ResponseStatus.Error, Message = "Login failed! Please check user details and try again." };
         }       
     }
-
+        
     public async Task<Response> UpdateAsync(UpdateProfileRequest user, CancellationToken cancellationToken)
     {
         try
@@ -109,15 +114,23 @@ public sealed class AuthService(ApplicationDbContext context, IConfiguration con
         {
             Subject = new ClaimsIdentity(new[]
             {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, "Admin"),
-                    new Claim(ClaimTypes.Role, "Customer")
-                }),
+               new Claim(ClaimTypes.Email, user.Email),
+               new Claim(ClaimTypes.Role, "Admin"),
+               new Claim(ClaimTypes.Role, "Customer")
+            }),
             Expires = DateTime.UtcNow.AddDays(1),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256)
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
+    }
+
+    private static string GenerateRefreshToken()
+    {
+        var randomNumber = new byte[64];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumber);
+        return Convert.ToBase64String(randomNumber);
     }
 }

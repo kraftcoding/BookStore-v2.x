@@ -4,7 +4,7 @@ import Cart from './pages/cart/Cart';
 import Home from './pages/home/Home';
 import Loan from './pages/loan/Loan';
 import Book from './pages/book/Book';
-import Profile from './pages/profile/Profile';
+import Profile from './pages/user-forms/profile/Profile';
 import Blog from './pages/blog/Blog';
 import About from './pages/about/About';
 import NotFound from './pages/not-found/NotFound';

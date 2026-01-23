@@ -27,7 +27,8 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cartReducer'],
+  whitelist: ['cartReducer', 'auth', 'authReducer'], // needed to persist data (i.e. to a browser reload or refresh)
+  
   // Add any blacklist or whitelist options if needed
 };
 

@@ -26,6 +26,8 @@ public sealed record LoginUserRequest(
 
 public sealed record UserAuthResponse( 
     string Token,
+    string RefreshToken,
+    DateTime accessTokenExpiry,
     int UserId,
     string Name,
     string Email,

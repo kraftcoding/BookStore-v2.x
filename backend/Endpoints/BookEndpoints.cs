@@ -1,4 +1,5 @@
 ﻿using Books.Api.Docker.Entities;
+using System.Threading;
 
 namespace Books.Api.Docker.Endpoints;
 
@@ -87,10 +88,16 @@ public static class BookEndpoints
     }
 
     public static async Task<IResult> CreateBook(
-             CreateBookRequest request,
+            CreateBookRequest request,
             IBookService bookService,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken,
+            IRedisCacheService cacheService)
     {
+        if (!await IsAuthenticated(request.Email, cacheService, cancellationToken))
+        {
+            return Results.Unauthorized();
+        }
+
         var book = request.ToEntity();
 
         book.Id = await bookService.CreateBookAsync(book, cancellationToken);
@@ -108,6 +115,11 @@ public static class BookEndpoints
             IRedisCacheService cacheService,
             CancellationToken cancellationToken)
     {
+        if (!await IsAuthenticated(request.Email, cacheService, cancellationToken))
+        {
+            return Results.Unauthorized();
+        }
+
         try
         {
             var cacheKey = $"book_{id}";
@@ -127,16 +139,21 @@ public static class BookEndpoints
     }
 
     public static async Task<IResult> DeleteBookById(
-            int id,
+            DeleteBookRequest request,
             IBookService bookService,
             IRedisCacheService cacheService,
             CancellationToken cancellationToken)
     {
+        if (!await IsAuthenticated(request.Email, cacheService, cancellationToken))
+        {
+            return Results.Unauthorized();
+        }
+
         try
         {
-            var cacheKey = $"book_{id}";
+            var cacheKey = $"book_{request.ISBN}";
 
-            await bookService.DeleteBookByIdAsync(id, cancellationToken);
+            await bookService.DeleteBookByIdAsync(request.ISBN, cancellationToken);
 
             await cacheService.RemoveDataAsync(cacheKey, cancellationToken);
 
@@ -147,4 +164,17 @@ public static class BookEndpoints
             return Results.NotFound(ex.Message);
         }
     }
+
+    internal static async Task<bool> IsAuthenticated(string email, IRedisCacheService cacheService, CancellationToken cancellationToken)
+    {
+        var cacheKey = $"token_{email}";
+
+        var token = await cacheService.GetDataAsync<string>(
+            cacheKey,
+            cancellationToken);
+
+        if (token is not null) return true;
+        else return false;
+    }
+
 }

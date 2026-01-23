@@ -1,7 +1,7 @@
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { IProfileInputs, logout, updateProfile } from '../../redux/reducers/authSlice';
+import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHook';
+import { IProfileInputs, logout, updateProfile } from '../../../redux/reducers/authSlice';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -29,6 +29,9 @@ const Profile = () => {
   const authInfo = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleLogout = () => {
     dispatch(logout());
@@ -51,6 +54,7 @@ const Profile = () => {
   });
 
  const {    
+    register,
     handleSubmit,
     formState: { errors },
   } = useForm<IProfileInputs>({
@@ -58,6 +62,7 @@ const Profile = () => {
   });
 
    useEffect(() => {
+      //if (!authInfo.loggedIn && !authInfo.error) {
       if (!authInfo.loggedIn && !authInfo.error) {
         navigate('/login');
       }
@@ -70,32 +75,21 @@ const Profile = () => {
     ]);
 
   const onSubmit = async (data: IProfileInputs) => {
-      try {
-        /*const credentials = {
-          email: data.email,
-          password: data.password,
-        };*/
-        await dispatch(updateProfile(data)).unwrap();
+      try {      
+        const res = await dispatch(updateProfile(data)).unwrap();  
+        if (res.status === "Success") {          
+          console.log(res.message);
+          setSuccess(res.message);
+        }         
+        if (res.status === "Error") {  
+          console.log(res.message);
+          setError(res.message);
+        }
       } catch (e) {
         console.log(e);
       }
     };
 
-
-/*
-  const handleSubmitProfile = async () => {
-     try {
-        const profileData = {
-          name: state.name,
-          email: state.email,
-          password: state.password,
-        };        
-
-        await dispatch(updateProfile(profileData)).unwrap();
-      } catch (e) {
-        console.log(e);
-      }
-  };*/
 
   return (
     <PageContainer>
@@ -116,51 +110,69 @@ const Profile = () => {
                 <p>Welcome, you are logged in {authInfo.userInfo?.name}!</p>
                 <Box>
                   <Typography variant="h5">User Information</Typography>
-                </Box>            
-               <form onSubmit={handleSubmit(onSubmit)}>
-                <Box
-                  maxWidth="lg"
-                  key={authInfo.userInfo?.id}
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    mb: 1,
-                    p: 1,
-                  }}
-                >
-                  <TextField
-                    id="name"
-                    label="name"                  
-                    sx={{ mb: 2 }}
-                    type="text"                  
-                    value={state.name}
-                    name="name"
-                    onChange={handleChange}                 
-                  />
-                  <TextField
-                    id="email"
-                    label="email"
-                    sx={{ mb: 2 }}
-                    type="email"
-                    value={state.email}
-                    name="email"
-                    onChange={handleChange}
-                  />
-                  <TextField
-                    id="password"
-                    label="password"
-                    sx={{ mb: 2 }}
-                    type="password"
-                    value={state.password}
-                    name="password"
-                    onChange={handleChange}
-                    
-                  />
-                   <Button variant="contained" type="submit">Submit</Button>
-                </Box>
-              </form>
+                </Box>  
+                <span>
+                  {" "}
+                  {error} {success}
+                </span>          
+                <form onSubmit={handleSubmit(onSubmit)}>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <TextField
+                variant="outlined"
+                label="Name"
+                autoComplete="name"
+                {...register('name', { required: 'Required' })}
+                error={!!errors.name}
+                helperText={errors.name ? errors.name.message : null}
+                sx={{ mb: 2 }}
+                type="name"
+                value={state.name}
+                onChange={handleChange}   
+              />
+              <TextField
+                variant="outlined"
+                label="Email Address"
+                autoComplete="email"
+                {...register('email', { required: 'Required' })}
+                error={!!errors.email}
+                helperText={errors.email ? errors.email.message : null}
+                sx={{ mb: 2 }}
+                type="email"
+                value={state.email}
+                //onChange={handleChange}   
+                disabled={isDisabled}
+                
+              />
+              <TextField
+                variant="outlined"
+                label="Password"
+                {...register('password', { required: 'Required' })}
+                error={!!errors.password}
+                helperText={errors.password ? errors.password.message : null}
+                sx={{ mb: 2 }}
+                type="password"
+                onChange={handleChange}   
+              />
+              <Button variant="contained" type="submit">
+                Submit
+              </Button>
+            </Box>
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                mt: 2,
+              }}
+            >
+              <Typography variant="h6">Don't have an account yet?</Typography>
+              <Button variant="text" onClick={() => navigate('/register')}>
+                Register
+              </Button>
+            </Box>
+          </form>
               <Box
                 sx={{
                   width: '100%',

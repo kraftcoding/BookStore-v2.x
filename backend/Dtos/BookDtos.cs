@@ -6,7 +6,8 @@ public sealed record CreateBookRequest(
     string Description, 
     string Author,
     string Category,
-    string Image);
+    string Image,
+    string Email);
 
 public sealed record BookResponse(
     int Id,
@@ -23,5 +24,10 @@ public sealed record UpdateBookRequest(
     string Description,
     string Author,
     string Category,
-    string Image);
+    string Image,
+    string Email);
+
+public sealed record DeleteBookRequest(   
+    string ISBN,
+    string Email);
 

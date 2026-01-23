@@ -10,10 +10,10 @@ public sealed class BookService(ApplicationDbContext context) : IBookService
         return book.Id;
     }
 
-    public async Task DeleteBookByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task DeleteBookByIdAsync(string id, CancellationToken cancellationToken)
     {
         var book = await context.Books
-             .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
+             .FirstOrDefaultAsync(b => b.ISBN == id, cancellationToken);
 
         if (book is null)
         {

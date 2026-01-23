@@ -3,6 +3,10 @@ import { RootState } from '../../redux/store';
 import { AxiosError } from 'axios';
 import axiosInstance from '../../common/axiosInstance';
 import { IUserRegister } from '../../types/auth';
+import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+
+
 
 export interface AuthCreds {
   email: string;
@@ -21,6 +25,8 @@ export interface User {
   email: string;
   initials: string;
   token: string;
+  refreshToken: string;
+  accessTokenExpiry: string;
   cart: [];
   password: string;
 }
@@ -76,7 +82,7 @@ export const updateProfile = createAsyncThunk(
         .map((name) => name[0].toUpperCase())
         .join('');
 
-      const UserResponse = await axiosInstance.put('/Auth', {
+      const UserResponse = await axiosInstance.put('/Auth/updateProfile', {
         ...user,
         initials: initials,
       });
@@ -100,7 +106,7 @@ export const loginUser = createAsyncThunk<
     const { data, status, message } = response.data;
 
     if (status == "Success") {
-      const { token, userId, name, email, initials, password } = data;
+      const { token, refreshToken, accessTokenExpiry, userId, name, email, initials, password } = data;
 
       const user: User = {
         id: userId.toString(),
@@ -108,6 +114,8 @@ export const loginUser = createAsyncThunk<
         email,
         initials,
         token,
+        refreshToken,
+        accessTokenExpiry,
         cart: [],
         password
       };
@@ -128,8 +136,8 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setRegistered: (state) => {
-      state.isRegistered = true;
+    setUnregistered: (state) => {
+      state.isRegistered = false;
     },
     loginSuccess: (state, action: PayloadAction<User>) => {
       state.loggedIn = true;
@@ -181,7 +189,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { loginSuccess, loginFailure, logout, setRegistered } =
+export const { loginSuccess, loginFailure, logout, setUnregistered } =
   authSlice.actions;
 export const selectLoggedIn = (state: RootState) => state.auth.loggedIn;
 export const selectUser = (state: RootState) => state.auth.userInfo;

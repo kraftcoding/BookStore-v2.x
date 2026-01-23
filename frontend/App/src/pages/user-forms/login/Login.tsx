@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHook';
-import { loginUser, setRegistered } from '../../../redux/reducers/authSlice';
+import { loginUser, setUnregistered, loginSuccess } from '../../../redux/reducers/authSlice';
 import { useEffect } from 'react';
 import { LoginContainer, PageContainer } from './Login.styles';
 
@@ -32,11 +32,11 @@ const Login = () => {
   });
 
   useEffect(() => {
-    if (authInfo.loggedIn && !authInfo.error) {
+    if (authInfo.loggedIn && !authInfo.error) {      
       navigate('/');
     }
     if (!authInfo.userInfo) {
-      dispatch(setRegistered()); // Set isRegistered to false if no user data exists
+      dispatch(setUnregistered());
     }
   }, [
     authInfo.loggedIn,
@@ -52,7 +52,8 @@ const Login = () => {
         email: data.email,
         password: data.password,
       };
-      await dispatch(loginUser(credentials)).unwrap();
+       const res = await dispatch(loginUser(credentials)).unwrap();
+      dispatch(loginSuccess(res));
     } catch (e) {
       console.log(e);
     }

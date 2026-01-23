@@ -63,8 +63,14 @@ public static class CategoryEndpoints
     public static async Task<IResult> CreateCategory(
              CreateCategoryRequest request,
             ICategoryService CategoryService,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken,
+            IRedisCacheService cacheService)
     {
+        if (!await IsAuthenticated(request.Email, cacheService, cancellationToken))
+        {
+            return Results.Unauthorized();
+        }
+
         var category = request.ToEntity();
 
         category.Id = await CategoryService.CreateCategoryAsync(category, cancellationToken);
@@ -82,6 +88,11 @@ public static class CategoryEndpoints
             IRedisCacheService cacheService,
             CancellationToken cancellationToken)
     {
+        if (!await IsAuthenticated(request.Email, cacheService, cancellationToken))
+        {
+            return Results.Unauthorized();
+        }
+
         try
         {
             var cacheKey = $"category_{id}";
@@ -101,16 +112,21 @@ public static class CategoryEndpoints
     }
 
     public static async Task<IResult> DeleteCategoryById(
-            int id,
+            DeleteCategoryRequest request,
             ICategoryService CategoryService,
             IRedisCacheService cacheService,
             CancellationToken cancellationToken)
     {
+        if (!await IsAuthenticated(request.Email, cacheService, cancellationToken))
+        {
+            return Results.Unauthorized();
+        }
+
         try
         {
-            var cacheKey = $"category_{id}";
+            var cacheKey = $"category_{request.Id}";
 
-            await CategoryService.DeleteCategoryByIdAsync(id, cancellationToken);
+            await CategoryService.DeleteCategoryByIdAsync(request.Id, cancellationToken);
 
             await cacheService.RemoveDataAsync(cacheKey, cancellationToken);
 
@@ -121,4 +137,16 @@ public static class CategoryEndpoints
             return Results.NotFound(ex.Message);
         }
     }
+    internal static async Task<bool> IsAuthenticated(string email, IRedisCacheService cacheService, CancellationToken cancellationToken)
+    {
+        var cacheKey = $"token_{email}";
+
+        var token = await cacheService.GetDataAsync<string>(
+            cacheKey,
+            cancellationToken);
+
+        if (token is not null) return true;
+        else return false;
+    }
+
 }
