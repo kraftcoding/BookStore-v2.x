@@ -27,7 +27,10 @@ class TokenManager {
       return null;
     }
 
+    // due to in classes or not function comonents useState procedure can't be used,
+    // this is the procedure that needs to be used in this case
     var token = store.getState().auth?.userInfo?.token
+
     if( token != undefined){
         return token;
     }
@@ -48,7 +51,7 @@ class TokenManager {
     let timeStamp = Date.parse(accessTokenExpiry);
     return Date.now() >= timeStamp - 30000;
   }
-  
+
    /*
   // Get time until expiration in seconds
   getTimeUntilExpiry(): number {
