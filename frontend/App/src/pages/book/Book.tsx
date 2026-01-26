@@ -13,7 +13,8 @@ import {
 import { useEffect, useState } from 'react';
 
 const Product = () => {
-  const books = useAppSelector((state) => state.bookReducer);
+  const authInfo = useAppSelector((state) => state.auth);
+  const booksReducer = useAppSelector((state) => state.bookReducer);
   const dispatch = useAppDispatch();
   const { name } = useParams();
   const navigate = useNavigate();
@@ -24,6 +25,10 @@ const Product = () => {
     setButtonClicked(true);
   };
 
+ const handlEditItem = (isbn: any) => {
+    navigate(`/edit/book/${isbn}`);
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -31,7 +36,7 @@ const Product = () => {
     <PageContainer>
       <Tab label="BACK" onClick={() => navigate(-1)} />
       <SingleBookContainer>
-        {books
+        {booksReducer.Books
           .filter((item) => item.title === name)
           .map((item) => (
             <BookDetailsContainer key={item.id}>
@@ -68,7 +73,10 @@ const Product = () => {
                     <Typography>
                       {buttonClicked ? 'ADDED TO CART' : 'ADD TO CART'}
                     </Typography>
-                  </Button>
+                  </Button>   
+                  <Typography>
+                    {authInfo.loggedIn ?  (<button onClick={ () => handlEditItem(item.isbn)} className="btn btn-info">Update </button>) : ('')}         
+                  </Typography> 
                 </DetailsBox>
               </BookDetailsBox>
             </BookDetailsContainer>

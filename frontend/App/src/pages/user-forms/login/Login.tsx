@@ -52,7 +52,7 @@ const Login = () => {
         email: data.email,
         password: data.password,
       };
-       const res = await dispatch(loginUser(credentials)).unwrap();
+      const res = await dispatch(loginUser(credentials)).unwrap();
       dispatch(loginSuccess(res));
     } catch (e) {
       console.log(e);

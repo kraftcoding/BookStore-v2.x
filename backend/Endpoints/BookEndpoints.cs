@@ -11,13 +11,13 @@ public static class BookEndpoints
 
         bookGroup.MapGet("", GetAllBooks).WithName(nameof(GetAllBooks));
 
-        bookGroup.MapGet("{id}", GetBookById).WithName(nameof(GetBookById));
+        bookGroup.MapGet("{id}", GetBook).WithName(nameof(GetBook));
 
         bookGroup.MapPost("", CreateBook).WithName(nameof(CreateBook));
 
         bookGroup.MapPut("{id}", UpdateBook).WithName(nameof(UpdateBook));
 
-        bookGroup.MapDelete("{id}", DeleteBookById).WithName(nameof(DeleteBookById));
+        //bookGroup.MapDelete("{id}", DeleteBook).WithName(nameof(DeleteBook));
     }
 
     public static async Task<IResult> GetAllBooks(
@@ -53,7 +53,7 @@ public static class BookEndpoints
         return Results.Ok(books.Select(b => b.ToResponseDto()));
     }
 
-    public static async Task<IResult> GetBookById(
+    public static async Task<IResult> GetBook(
          int id,
          IBookService bookService,
          IRedisCacheService cacheService,
@@ -138,7 +138,8 @@ public static class BookEndpoints
         }
     }
 
-    public static async Task<IResult> DeleteBookById(
+    public static async Task<IResult> DeleteBook(
+            int id,
             DeleteBookRequest request,
             IBookService bookService,
             IRedisCacheService cacheService,

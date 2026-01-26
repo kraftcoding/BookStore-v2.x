@@ -4,8 +4,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import { useAppDispatch } from '../../hooks/reduxHook';
 import {
-  lowestPriceFirst,
-  highestPriceFirst,
+  lowestISBNFirst,
+  highestISBNFirst,
   alphabetical,
   alphabetical2,
 } from '../../redux/reducers/bookSlice';
@@ -23,11 +23,11 @@ export default function FadeMenu() {
 
   const dispatch = useAppDispatch();
   const highestFirst = () => {
-    dispatch(highestPriceFirst());
+    dispatch(highestISBNFirst());
     handleClose();
   };
   const lowestFirst = () => {
-    dispatch(lowestPriceFirst());
+    dispatch(lowestISBNFirst());
     handleClose();
   };
   const alphabetAz = () => {
@@ -70,7 +70,7 @@ export default function FadeMenu() {
             justifyContent: 'center',
           }}
         >
-          Highest Price First
+          Highest ISBN First
         </MenuItem>
         <MenuItem
           onClick={lowestFirst}
@@ -81,7 +81,7 @@ export default function FadeMenu() {
             justifyContent: 'center',
           }}
         >
-          Lowest Price First
+          Lowest ISBN First
         </MenuItem>
         <MenuItem
           onClick={alphabetAz}

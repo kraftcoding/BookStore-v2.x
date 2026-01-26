@@ -11,7 +11,7 @@ import BooktCard from '../../book-card/BookCard';
 import { CircularProgress } from '@mui/material';
 
 const NewArrivalsSection = () => {
-  const books = useAppSelector((state) => state.bookReducer);
+  const bookReducer = useAppSelector((state) => state.bookReducer);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
 
@@ -30,8 +30,8 @@ const NewArrivalsSection = () => {
         <CircularProgress />
       ) : (
         <BookCardsContainer>
-          {books.length > 0 &&
-            books
+          {bookReducer.Books.length > 0 &&
+            bookReducer.Books
               .slice(1, 7)
               .map((book) => (
                 <BooktCard key={book.id} book={book} />

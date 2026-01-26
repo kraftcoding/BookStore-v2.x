@@ -8,13 +8,13 @@ public static class CategoryEndpoints
 
         categoryGroup.MapGet("", GetAllCategories).WithName(nameof(GetAllCategories));
 
-        categoryGroup.MapGet("{id}", GetCategoryById).WithName(nameof(GetCategoryById));
+        categoryGroup.MapGet("{id}", GetCategory).WithName(nameof(GetCategory));
 
         categoryGroup.MapPost("", CreateCategory).WithName(nameof(CreateCategory));
 
         categoryGroup.MapPut("{id}", UpdateCategory).WithName(nameof(UpdateCategory));
 
-        categoryGroup.MapDelete("{id}", DeleteCategoryById).WithName(nameof(DeleteCategoryById));
+        //categoryGroup.MapDelete("{id}", DeleteCategory).WithName(nameof(DeleteCategory));
     }
 
     public static async Task<IResult> GetAllCategories(
@@ -26,7 +26,7 @@ public static class CategoryEndpoints
         return Results.Ok(categories.Select(b => b.ToResponseDto()));
     }
 
-    public static async Task<IResult> GetCategoryById(
+    public static async Task<IResult> GetCategory(
          int id,
          ICategoryService CategoryService,
          IRedisCacheService cacheService,
@@ -111,7 +111,8 @@ public static class CategoryEndpoints
         }
     }
 
-    public static async Task<IResult> DeleteCategoryById(
+    public static async Task<IResult> DeleteCategory(
+            int id,
             DeleteCategoryRequest request,
             ICategoryService CategoryService,
             IRedisCacheService cacheService,
@@ -137,6 +138,7 @@ public static class CategoryEndpoints
             return Results.NotFound(ex.Message);
         }
     }
+   
     internal static async Task<bool> IsAuthenticated(string email, IRedisCacheService cacheService, CancellationToken cancellationToken)
     {
         var cacheKey = $"token_{email}";
@@ -148,5 +150,4 @@ public static class CategoryEndpoints
         if (token is not null) return true;
         else return false;
     }
-
 }

@@ -8,7 +8,7 @@ import { PaginationContainer } from '../loan/Loan.styles';
 import BookCard from '../../components/book-card/BookCard';
 
 const Category = () => {
-  const books = useAppSelector((state) => state.bookReducer);
+  const bookReducer = useAppSelector((state) => state.bookReducer);
   const { category } = useParams();
   const navigate = useNavigate();
 
@@ -18,11 +18,11 @@ const Category = () => {
   // Calculate the current page's range of books
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const categoryItems = books
+  const categoryItems = bookReducer.Books
     .filter((book) => book.category === category)
     .slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(
-    books.filter((book) => book.category === category).length /
+    bookReducer.Books.filter((book) => book.category === category).length /
       itemsPerPage
   );
   // Handle page change

@@ -71,9 +71,11 @@ const Navbar = () => {
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const loggedIn = useAppSelector((state) => state.auth.loggedIn);
 
+  const books = useAppSelector((state) => state.bookReducer);
+
   //const userInfo = useAppSelector((state) => state.auth);
   const [searchTerm, setSearchTerm] = useState('');
-  const products = useAppSelector((state) => state.bookReducer);
+  const products = useAppSelector((state) => state.bookReducer.Books);
   const [filteredBooks, setFilteredProducts] = useState<Book[]>([]);
   // eslint-disable-next-line
   const [showSearchResults, setShowSearchResults] = useState(false);

@@ -1,12 +1,13 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Book } from '../../types/book';
 import axiosInstance from '../../common/axiosInstance';
+import { AxiosError } from 'axios';
 
 export const fetchAllBooks = createAsyncThunk(
   'fetchAllBooks',
   async () => {
     try {
-      const res = await axiosInstance.get('/Books');
+      const res = await axiosInstance.get('/Books');     
       return res.data;
     } catch (error) {
       console.log(error);
@@ -14,32 +15,84 @@ export const fetchAllBooks = createAsyncThunk(
   }
 );
 
-const initialState: Book[] = [];
+export const fetchBook = createAsyncThunk(
+  'fetchBook',
+  async (id:string | undefined) => {
+    try {
+      const res = await axiosInstance.get('/books/' + id);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const updateBook = createAsyncThunk(
+  'updateProfile',
+  async (book: IBookInputs) => {
+    try {
+      const UserResponse = await axiosInstance.put('/books/' + book.isbn, {
+        ...book,
+      });
+
+      const data = UserResponse.data;
+      return data;
+    } catch (e) {
+      const error = e as AxiosError;
+      return error;
+    }
+  }
+);
+
+export interface IBookInputs {
+  title: string;
+  isbn: string;
+  description: string;
+  author: string;
+  category: string;
+  image: string;
+}
+
+export interface BookState {  
+  bookInfo: Book | null; 
+  Books: Book[];
+}
+
+const initialState: BookState = {
+  bookInfo: null,
+  Books: [] = [],
+}
 
 const bookSlice = createSlice({
   name: 'book',
   initialState,
   reducers: {
-    highestPriceFirst: (state) => {
-      state.sort((a, b) => (a.isbn > b.isbn ? -1 : 1));
+    fetchBookSuccess: (state, action: PayloadAction<Book>) => {
+      state.bookInfo = action.payload;
     },
-    lowestPriceFirst: (state) => {
-      state.sort((a, b) => (a.isbn < b.isbn ? -1 : 1));
+    fetchAllBooksSuccess: (state, action: PayloadAction<Book[]>) => {
+      state.Books = action.payload;
+    },
+    highestISBNFirst: (state) => {
+      state.Books.sort((a, b) => (a.isbn > b.isbn ? -1 : 1));
+    },
+    lowestISBNFirst: (state) => {
+      state.Books.sort((a, b) => (a.isbn < b.isbn ? -1 : 1));
     },
     alphabetical: (state) => {
-      state.sort((a, b) => b.title.localeCompare(a.title));
+      state.Books.sort((a, b) => b.title.localeCompare(a.title));
     },
     alphabetical2: (state) => {
-      state.sort((a, b) => a.title.localeCompare(b.title));
+      state.Books.sort((a, b) => a.title.localeCompare(b.title));
     },
     searchByName: (state, action) => {
-      const filteredBooks = state.filter((book) =>
+      const filteredBooks = state.Books.filter((book) =>
         book.title.toLowerCase().includes(action.payload.toLowerCase())
       );
       return {
         ...state,
         filteredBooks:
-          action.payload.length > 0 ? filteredBooks : [...state],
+          action.payload.length > 0 ? filteredBooks : [...state.Books],
       };
     },
   },
@@ -65,11 +118,16 @@ const bookSlice = createSlice({
   },
 });
 
+
 const bookReducer = bookSlice.reducer;
+
 export const {
-  lowestPriceFirst,
-  highestPriceFirst,
+  fetchBookSuccess,
+  fetchAllBooksSuccess,
+  lowestISBNFirst,
+  highestISBNFirst,
   alphabetical,
   alphabetical2,
 } = bookSlice.actions;
+
 export default bookReducer;

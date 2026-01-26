@@ -135,7 +135,7 @@ export const loginUser = createAsyncThunk<
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
+  reducers: {    
     setUnregistered: (state) => {
       state.isRegistered = false;
     },

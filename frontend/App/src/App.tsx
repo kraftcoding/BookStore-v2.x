@@ -13,6 +13,7 @@ import Footer from './components/footer/Footer';
 import Register from './pages/user-forms/register/Register';
 import Login from './pages/user-forms/login/Login';
 import Favorite from './pages/favorite/Favorite';
+import EditBook from './pages/content-forms/books/BookEdit';
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
           <Route path="/*" element={<NotFound />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/edit/book/:id" element={<EditBook />} />
         </Routes>
         <Footer />
       </BrowserRouter>

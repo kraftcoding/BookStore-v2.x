@@ -12,7 +12,7 @@ import CategoryLists from '../../components/categories/CategoryLists';
 import BookCard from '../../components/book-card/BookCard';
 
 const Loan = () => {
-  const books = useAppSelector((state) => state.bookReducer);
+  const booksReducer = useAppSelector((state) => state.bookReducer);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +27,7 @@ const Loan = () => {
   // Calculate the current page's range of books
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentBooks = books.slice(indexOfFirstItem, indexOfLastItem);
+  const currentBooks = booksReducer.Books.slice(indexOfFirstItem, indexOfLastItem);
 
   // Handle page change
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
@@ -70,7 +70,7 @@ const Loan = () => {
 
       <PaginationContainer>
         <Pagination
-          count={Math.ceil(books.length / itemsPerPage)}
+          count={Math.ceil(booksReducer.Books.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
         />
