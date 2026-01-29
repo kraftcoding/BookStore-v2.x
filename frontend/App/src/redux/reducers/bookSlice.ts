@@ -54,67 +54,75 @@ export interface IBookInputs {
 }
 
 export interface BookState {  
-  bookInfo: Book | null; 
-  Books: Book[];
+  book: Book | null; 
+  books: Book[];
 }
 
 const initialState: BookState = {
-  bookInfo: null,
-  Books: [] = [],
+  book: null,
+  books: [] = [],
 }
+
+//const initialState: books[] = [];
 
 const bookSlice = createSlice({
   name: 'book',
   initialState,
   reducers: {
     fetchBookSuccess: (state, action: PayloadAction<Book>) => {
-      state.bookInfo = action.payload;
+      state.book = action.payload;
     },
     fetchAllBooksSuccess: (state, action: PayloadAction<Book[]>) => {
-      state.Books = action.payload;
+      state.books = action.payload;
     },
     highestISBNFirst: (state) => {
-      state.Books.sort((a, b) => (a.isbn > b.isbn ? -1 : 1));
+      state.books.sort((a, b) => (a.isbn > b.isbn ? -1 : 1));
     },
     lowestISBNFirst: (state) => {
-      state.Books.sort((a, b) => (a.isbn < b.isbn ? -1 : 1));
+      state.books.sort((a, b) => (a.isbn < b.isbn ? -1 : 1));
     },
     alphabetical: (state) => {
-      state.Books.sort((a, b) => b.title.localeCompare(a.title));
+      state.books.sort((a, b) => b.title.localeCompare(a.title));
     },
     alphabetical2: (state) => {
-      state.Books.sort((a, b) => a.title.localeCompare(b.title));
+      state.books.sort((a, b) => a.title.localeCompare(b.title));
     },
     searchByName: (state, action) => {
-      const filteredBooks = state.Books.filter((book) =>
+      const filteredBooks = state.books.filter((book) =>
         book.title.toLowerCase().includes(action.payload.toLowerCase())
       );
       return {
         ...state,
         filteredBooks:
-          action.payload.length > 0 ? filteredBooks : [...state.Books],
+          action.payload.length > 0 ? filteredBooks : [...state.books],
       };
     },
   },
 
   extraReducers: (build) => {
-    build.addCase(fetchAllBooks.fulfilled, (state, action) => {
-      console.log('data is fetched');
-      if (action.payload && 'message' in action.payload) {
-        return state;
-      } else if (!action.payload) {
-        return state;
-      }
-      return action.payload;
+
+    // fetchAllBooks reducers
+    build.addCase(fetchAllBooks.fulfilled, (state, action) => {     
+      state.books = action.payload;
     });
     build.addCase(fetchAllBooks.rejected, (state, action) => {
-      console.log('error');
-      return state;
+      console.log('error in fetchAllBooks');
     });
     build.addCase(fetchAllBooks.pending, (state, action) => {
-      console.log('loading');
-      return state;
+      console.log('pending in fetchAllBooks');
     });
+
+    // fetchBook reducers
+    build.addCase(fetchBook.fulfilled, (state, action) => {     
+      state.book = action.payload;
+    });
+    build.addCase(fetchBook.rejected, (state, action) => {
+      console.log('error in fetchBook');
+    });
+    build.addCase(fetchBook.pending, (state, action) => {
+      console.log('pending in fetchBook');
+    });
+
   },
 });
 

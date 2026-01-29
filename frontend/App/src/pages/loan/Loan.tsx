@@ -27,7 +27,7 @@ const Loan = () => {
   // Calculate the current page's range of books
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentBooks = booksReducer.Books.slice(indexOfFirstItem, indexOfLastItem);
+  const currentBooks = booksReducer.books.slice(indexOfFirstItem, indexOfLastItem);
 
   // Handle page change
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
@@ -70,7 +70,7 @@ const Loan = () => {
 
       <PaginationContainer>
         <Pagination
-          count={Math.ceil(booksReducer.Books.length / itemsPerPage)}
+          count={Math.ceil(booksReducer.books.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
         />

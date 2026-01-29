@@ -28,7 +28,7 @@ public sealed class BookService(ApplicationDbContext context) : IBookService
     public async Task<Book?> GetBookByIdAsync(int id, CancellationToken cancellationToken)
           => await context.Books
             .AsNoTracking()
-            .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(b => b.ISBN == id.ToString(), cancellationToken);
 
     public async Task<IEnumerable<Book>> GetBooksAsync(CancellationToken cancellationToken)
         => await context.Books

@@ -36,7 +36,7 @@ const Product = () => {
     <PageContainer>
       <Tab label="BACK" onClick={() => navigate(-1)} />
       <SingleBookContainer>
-        {booksReducer.Books
+        {booksReducer.books
           .filter((item) => item.title === name)
           .map((item) => (
             <BookDetailsContainer key={item.id}>

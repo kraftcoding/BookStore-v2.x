@@ -62,6 +62,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar = () => {
+  const booksReducer = useAppSelector((state) => state.bookReducer);
   const { cartItems } = useAppSelector((state: RootState) => state.cartReducer);
   const { favoriteItems } = useAppSelector(
     (state: RootState) => state.favoriteReducer
@@ -71,11 +72,8 @@ const Navbar = () => {
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const loggedIn = useAppSelector((state) => state.auth.loggedIn);
 
-  const books = useAppSelector((state) => state.bookReducer);
-
-  //const userInfo = useAppSelector((state) => state.auth);
   const [searchTerm, setSearchTerm] = useState('');
-  const products = useAppSelector((state) => state.bookReducer.Books);
+  const products = booksReducer.books;
   const [filteredBooks, setFilteredProducts] = useState<Book[]>([]);
   // eslint-disable-next-line
   const [showSearchResults, setShowSearchResults] = useState(false);

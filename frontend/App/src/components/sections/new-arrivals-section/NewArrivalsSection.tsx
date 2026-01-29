@@ -30,8 +30,8 @@ const NewArrivalsSection = () => {
         <CircularProgress />
       ) : (
         <BookCardsContainer>
-          {bookReducer.Books.length > 0 &&
-            bookReducer.Books
+          {bookReducer.books.length > 0 &&
+            bookReducer.books
               .slice(1, 7)
               .map((book) => (
                 <BooktCard key={book.id} book={book} />

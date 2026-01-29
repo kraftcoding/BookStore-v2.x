@@ -16,8 +16,8 @@ const MostPopularSection = () => {
         <SectionName variant="h6">Most Popular</SectionName>
       </SectionNameContainer>
       <BookCardsContainer>
-        {books.Books.length > 0 &&
-          books.Books
+        {books.books.length > 0 &&
+          books.books
             .slice(8, 14)
             .map((book) => (
               <BookCard key={book.id} book={book} />

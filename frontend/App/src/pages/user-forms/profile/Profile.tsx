@@ -62,7 +62,6 @@ const Profile = () => {
   });
 
    useEffect(() => {
-      //if (!authInfo.loggedIn && !authInfo.error) {
       if (!authInfo.loggedIn && !authInfo.error) {
         navigate('/login');
       }

@@ -18,11 +18,11 @@ const Category = () => {
   // Calculate the current page's range of books
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const categoryItems = bookReducer.Books
+  const categoryItems = bookReducer.books
     .filter((book) => book.category === category)
     .slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(
-    bookReducer.Books.filter((book) => book.category === category).length /
+    bookReducer.books.filter((book) => book.category === category).length /
       itemsPerPage
   );
   // Handle page change

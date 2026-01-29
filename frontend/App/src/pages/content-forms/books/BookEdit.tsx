@@ -1,7 +1,6 @@
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHook';
-//import { IProfileInputs, logout, updateProfile } from '../../../redux/reducers/authSlice';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -10,32 +9,37 @@ import * as yup from 'yup';
 import { BookContainer, BookInfoContainer } from './BookEdit.styles';
 import { fetchBook, IBookInputs, updateBook } from '../../../redux/reducers/bookSlice';
 
-
-/*const loginSchema = yup.object({
-  isbn: yup.string().email('Invalid email').required('Email is required'),
-  password: yup.string().required('Password is required'),
-});*/
-
 const bookSchema = yup.object({
   title: yup.string().required('Title is required'),
+  isbn: yup.string().required('ISBN is required')
 });
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
   var params = useParams();
-  const booksReducer = useAppSelector((state) => state.bookReducer);
+  const book = useAppSelector((state) => state.bookReducer.book);
 
   console.log(params.id); 
-
-  //const authInfo = useAppSelector((state) => state.auth);
-
     useEffect(() => {
       dispatch(
         fetchBook(params.id))
-        .then(() => setLoading(false))
+        .then(() => {
+          console.log("then");
+          setLoading(false);   
+          if(book != null){
+            console.log("book -- is not null");
+            state.title = book?.title;
+            state.isbn = book?.isbn;
+            state.author = book?.author;
+            state.description = book?.description;
+            state.category = book?.category;
+            state.image = book?.image;
+          }                 
+        })
         .catch(() => setLoading(false));
-    }, [dispatch]);
+        
+    }, [dispatch] );
 
   const navigate = useNavigate();
   const [isDisabled, setIsDisabled] = useState(true);
@@ -50,10 +54,15 @@ const Profile = () => {
     });
   }
 
-  const [state, setState] = useState({   
-    title: booksReducer.bookInfo?.title,
-    isbn: booksReducer.bookInfo?.isbn
+  const [state, setState] = useState({ 
+    title: book?.title,
+    isbn: book?.isbn,
+    author: book?.author,
+    description: book?.description,
+    category: book?.category,
+    image:book?.image
   });
+
 
  const {    
     register,
@@ -106,7 +115,7 @@ const Profile = () => {
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <TextField
                 variant="outlined"
-                label="Title"
+                //label="Title"
                 autoComplete="title"
                 {...register('title', { required: 'Required' })}
                 error={!!errors.title}
@@ -118,7 +127,7 @@ const Profile = () => {
               />
               <TextField
                 variant="outlined"
-                label="ISBN"
+                //label="ISBN"
                 autoComplete="isbn"
                 {...register('isbn', { required: 'Required' })}
                 error={!!errors.isbn}
@@ -127,9 +136,61 @@ const Profile = () => {
                 type="isbn"
                 value={params.id}
                 //onChange={handleChange}   
-                disabled={isDisabled}
-                
-              />              
+                disabled={isDisabled}                
+              />
+              <TextField
+                variant="outlined"
+                //label="author"
+                //autoComplete="author"
+                {...register('author')}
+                error={!!errors.author}
+                helperText={errors.author ? errors.author.message : null}
+                sx={{ mb: 2 }}
+                type="name"
+                value={state.author}
+                onChange={handleChange}   
+              />
+              <TextField
+                rows={5}
+                multiline
+                variant="outlined"
+                //label="description"
+                autoComplete="description"
+                {...register('description')}
+                error={!!errors.description}
+                helperText={errors.description ? errors.description.message : null}
+                sx={{ mb: 2 }}
+                type="name"
+                value={state.description}
+                onChange={handleChange}   
+              />
+               <TextField
+                variant="outlined"
+                //label="author"
+                //autoComplete="author"
+                {...register('category')}
+                error={!!errors.category}
+                helperText={errors.category ? errors.category.message : null}
+                sx={{ mb: 2 }}
+                type="name"
+                value={state.category}
+                onChange={handleChange}   
+              />
+               <TextField
+                rows={2}
+                multiline
+                variant="outlined"
+                //label="description"
+                autoComplete="image"
+                {...register('image')}
+                error={!!errors.image}
+                helperText={errors.image ? errors.image.message : null}
+                sx={{ mb: 2 }}
+                type="name"
+                value={state.image}
+                onChange={handleChange}   
+              />
+
               <Button variant="contained" type="submit">
                 Submit
               </Button>
