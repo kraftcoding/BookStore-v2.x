@@ -14,6 +14,7 @@ import Register from './pages/user-forms/register/Register';
 import Login from './pages/user-forms/login/Login';
 import Favorite from './pages/favorite/Favorite';
 import EditBook from './pages/content-forms/books/BookEdit';
+import BookListComponent from './pages/content-forms/books/BookList';
 
 const App = () => {
   return (
@@ -44,6 +45,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/edit/book/:id" element={<EditBook />} />
+          <Route path="/edit/book-list" element={<BookListComponent />} />
         </Routes>
         <Footer />
       </BrowserRouter>

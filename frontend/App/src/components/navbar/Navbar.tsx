@@ -8,6 +8,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LoaningCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+
 import {
   MenuContainer,
   NavigationBar,
@@ -184,7 +186,7 @@ const Navbar = () => {
               </Badge>
             </IconButton>
             <IconButton size="large" color="inherit">
-              {loggedIn ? (
+              {authInfo.loggedIn ? (
                 <Badge badgeContent={getItemsCount() || '0'} color="error">
                   <CartLink to="/cart">
                     <LoaningCartOutlinedIcon />
@@ -197,27 +199,32 @@ const Navbar = () => {
                   </CartLink>
                 </Badge>
               )}
-            </IconButton>
+            </IconButton>            
 
             {authInfo.loggedIn ? (
+              
               <Box
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                }}
-              >
+                }}>
+
+                <CartLink to="/edit/book-list">
+                  <ListAltIcon/>
+                </CartLink>                
+
                 <CartLink to="/profile">
                   <Avatar
                     sx={{
                       bgcolor: lightBlue,
                       width: 35,
                       height: 35,
-                    }}
-                  >
+                    }}>
                     <h4>{authInfo.userInfo?.initials}</h4>
                   </Avatar>
-                </CartLink>
+                </CartLink>                
+
               </Box>
             ) : (
               <IconButton
