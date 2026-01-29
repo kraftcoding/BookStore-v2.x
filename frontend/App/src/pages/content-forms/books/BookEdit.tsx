@@ -19,27 +19,30 @@ const Profile = () => {
   const dispatch = useAppDispatch();
   var params = useParams();
   const book = useAppSelector((state) => state.bookReducer.book);
-
-  console.log(params.id); 
+  const auth = useAppSelector((state) => state.auth);
+  
     useEffect(() => {
       dispatch(
         fetchBook(params.id))
         .then(() => {
-          console.log("then");
-          setLoading(false);   
-          if(book != null){
-            console.log("book -- is not null");
+          setLoading(false);  
+        })
+        .catch(() => setLoading(false));
+        
+    }, [dispatch] );
+
+     useEffect(() => {
+         if(book != null){
             state.title = book?.title;
             state.isbn = book?.isbn;
             state.author = book?.author;
             state.description = book?.description;
             state.category = book?.category;
             state.image = book?.image;
-          }                 
-        })
-        .catch(() => setLoading(false));
-        
-    }, [dispatch] );
+            state.email = auth.userInfo?.email
+          }     
+        }
+        );
 
   const navigate = useNavigate();
   const [isDisabled, setIsDisabled] = useState(true);
@@ -60,7 +63,8 @@ const Profile = () => {
     author: book?.author,
     description: book?.description,
     category: book?.category,
-    image:book?.image
+    image:book?.image,
+    email: auth.userInfo?.email
   });
 
 
