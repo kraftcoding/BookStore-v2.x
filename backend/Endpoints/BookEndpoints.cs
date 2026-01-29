@@ -126,9 +126,7 @@ public static class BookEndpoints
 
             var book = request.ToEntity(id);
 
-            await bookService.UpdateBookAsync(book, cancellationToken);
-
-            await cacheService.RemoveDataAsync(cacheKey, cancellationToken);
+            await bookService.UpdateBookAsync(book, cancellationToken);            
 
             return Results.NoContent();
         }
@@ -154,9 +152,7 @@ public static class BookEndpoints
         {
             var cacheKey = $"book_{request.ISBN}";
 
-            await bookService.DeleteBookByIdAsync(request.ISBN, cancellationToken);
-
-            await cacheService.RemoveDataAsync(cacheKey, cancellationToken);
+            await bookService.DeleteBookByIdAsync(request.ISBN, cancellationToken);            
 
             return Results.NoContent();
         }

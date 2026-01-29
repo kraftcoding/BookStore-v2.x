@@ -29,7 +29,8 @@ export const fetchBook = createAsyncThunk(
 
 export const updateBook = createAsyncThunk(
   'updateProfile',
-  async (book: IBookInputs) => {
+  //async (book: IBookInputs) => {
+  async (book: any) => {
     try {
       const UserResponse = await axiosInstance.put('/books/' + book.isbn, {
         ...book,

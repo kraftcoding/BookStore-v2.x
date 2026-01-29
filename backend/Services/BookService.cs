@@ -39,7 +39,7 @@ public sealed class BookService(ApplicationDbContext context) : IBookService
     public async Task UpdateBookAsync(Book book, CancellationToken cancellationToken)
     {
         var bookObj = await context.Books
-             .FirstOrDefaultAsync(b => b.Id == book.Id, cancellationToken);
+             .FirstOrDefaultAsync(b => b.ISBN == book.ISBN, cancellationToken);
 
         if (bookObj is null)
         {

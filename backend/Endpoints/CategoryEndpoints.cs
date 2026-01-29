@@ -101,8 +101,6 @@ public static class CategoryEndpoints
 
             await CategoryService.UpdateCategoryAsync(category, cancellationToken);
 
-            await cacheService.RemoveDataAsync(cacheKey, cancellationToken);
-
             return Results.NoContent();
         }
         catch (Exception ex)
@@ -128,9 +126,7 @@ public static class CategoryEndpoints
             var cacheKey = $"category_{request.Id}";
 
             await CategoryService.DeleteCategoryByIdAsync(request.Id, cancellationToken);
-
-            await cacheService.RemoveDataAsync(cacheKey, cancellationToken);
-
+        
             return Results.NoContent();
         }
         catch (Exception ex)
