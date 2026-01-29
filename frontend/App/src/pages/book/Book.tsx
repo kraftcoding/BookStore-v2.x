@@ -25,10 +25,6 @@ const Product = () => {
     setButtonClicked(true);
   };
 
- const handlEditItem = (isbn: any) => {
-    navigate(`/edit/book/${isbn}`);
-  };
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -73,10 +69,7 @@ const Product = () => {
                     <Typography>
                       {buttonClicked ? 'ADDED TO CART' : 'ADD TO CART'}
                     </Typography>
-                  </Button>   
-                  <Typography>
-                    {authInfo.loggedIn ?  (<button onClick={ () => handlEditItem(item.isbn)} className="btn btn-info">Update </button>) : ('')}         
-                  </Typography> 
+                  </Button>                     
                 </DetailsBox>
               </BookDetailsBox>
             </BookDetailsContainer>

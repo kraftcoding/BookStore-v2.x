@@ -102,6 +102,8 @@ public static class BookEndpoints
 
         book.Id = await bookService.CreateBookAsync(book, cancellationToken);
 
+        ClearCacheForBooks(cacheService, cancellationToken);
+
         return Results.CreatedAtRoute(
             nameof(CreateBook),
             new { id = book.Id },
@@ -126,7 +128,9 @@ public static class BookEndpoints
 
             var book = request.ToEntity(id);
 
-            await bookService.UpdateBookAsync(book, cancellationToken);            
+            await bookService.UpdateBookAsync(book, cancellationToken);
+
+            ClearCacheForBooks(cacheService, cancellationToken);
 
             return Results.NoContent();
         }
@@ -152,7 +156,9 @@ public static class BookEndpoints
         {
             var cacheKey = $"book_{request.ISBN}";
 
-            await bookService.DeleteBookByIdAsync(request.ISBN, cancellationToken);            
+            await bookService.DeleteBookByIdAsync(request.ISBN, cancellationToken);
+
+            ClearCacheForBooks(cacheService, cancellationToken);
 
             return Results.NoContent();
         }
@@ -172,6 +178,14 @@ public static class BookEndpoints
 
         if (token is not null) return true;
         else return false;
+    }
+
+    internal static async void ClearCacheForBooks(IRedisCacheService cacheService, CancellationToken cancellationToken)
+    {
+        var cacheKey = "books";
+        await cacheService.RemoveDataAsync(
+            cacheKey,
+            cancellationToken);
     }
 
 }

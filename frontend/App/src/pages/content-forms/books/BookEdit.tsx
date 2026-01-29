@@ -10,8 +10,8 @@ import { BookContainer, BookInfoContainer } from './BookEdit.styles';
 import { fetchBook, IBookInputs, updateBook } from '../../../redux/reducers/bookSlice';
 
 const bookSchema = yup.object({
-  title: yup.string().required('Title is required'),
-  isbn: yup.string().required('ISBN is required')
+  //title: yup.string().required('Title is required'),
+  //isbn: yup.string().required('ISBN is required')
 });
 
 const Profile = () => {
@@ -42,10 +42,9 @@ const Profile = () => {
             state.email = auth.userInfo?.email
           }     
         }
-    , [book]);
-        
+    , [book]);        
 
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isDisabled, setIsDisabled] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -68,7 +67,6 @@ const Profile = () => {
     email: auth.userInfo?.email
   });
 
-
  const {    
     register,
     handleSubmit,
@@ -78,16 +76,13 @@ const Profile = () => {
   });
 
 
-  //const onSubmit = async (data: IBookInputs) => {
   const onSubmit = async () => {
-      try {      
-        
-        const res = await dispatch(updateBook(state)).unwrap();  
-        if (res.status === "Success") {          
-          console.log(res.message);
-          setSuccess(res.message);
+      try {              
+        const res = await dispatch(updateBook(state)).unwrap();          
+        if (res.status === undefined) {  
+           navigate(`/edit/book-list`);
         }         
-        if (res.status === "Error") {  
+        if (res.status === 401) {  
           console.log(res.message);
           setError(res.message);
         }
