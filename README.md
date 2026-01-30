@@ -2,6 +2,8 @@
 
 Book Store v2.x solution built with .NET 10 and React 18, designed to demonstrate the integration of Docker Compose for container orchestration. The application utilizes PostgreSQL as its primary database, JWT authentication and authorization and Redis for caching; providing a robust foundation for scalable Web API.
 
+CI/CD is configured using GitHub Actions to automate the build, test, and deployment processes.
+
 ## Table of Contents
 
 - [Getting Started](#getting-started)
