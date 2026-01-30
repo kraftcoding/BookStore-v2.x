@@ -1,46 +1,19 @@
-# Stage 1: Build React app
-FROM node:20-alpine AS build
-WORKDIR /app
+FROM node:18-alpine AS deps
 
-# Install build dependencies
-RUN apk add --no-cache tini
 
-# Copy package files
-COPY frontend/App/package*.json ./
+# Create app directory
+RUN mkdir -p /usr/src
+WORKDIR /usr/src
 
-# Install dependencies. Use `npm install` here instead of `npm ci` because the package-lock.json may not be present.
-RUN npm install --no-audit --prefer-offline --no-fund
+# Install app dependencies
+COPY /frontend/App/package.json /usr/src/
+COPY /frontend/App/package-lock.json /usr/src/
+RUN npm install
 
-# Copy source and build
-COPY frontend/App/ ./
+# Bundle app source
+COPY /frontend/App /usr/src
+
 RUN npm run build
+EXPOSE 3000
 
-# Stage 2: Serve with Nginx
-FROM nginx:1.24-alpine
-
-# Switch to root to modify permissions
-USER root
-
-# Create writable PID directory and set permissions
-RUN mkdir -p /run/nginx && \
-    chown -R nginx:nginx /run/nginx && \
-    chown -R nginx:nginx /var/cache/nginx && \
-    chown -R nginx:nginx /var/log/nginx && \
-    chown -R nginx:nginx /etc/nginx/conf.d && \
-    chown -R nginx:nginx /usr/share/nginx/html
-
-# Copy custom nginx config
-COPY frontend/App/nginx.conf /etc/nginx/nginx.conf
-
-# Copy built application
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Switch to nginx user
-USER nginx
-EXPOSE 80
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost/ || exit 1
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD [ "npm", "start" ]

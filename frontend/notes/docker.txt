@@ -1,0 +1,2 @@
+﻿docker login
+docker build -t kraftcoding/bookstoreversiontwofront:master .
