@@ -29,10 +29,26 @@ export const fetchBook = createAsyncThunk(
 
 export const updateBook = createAsyncThunk(
   'updateProfile',
-  //async (book: IBookInputs) => {
   async (book: any) => {
     try {
       const UserResponse = await axiosInstance.put('/books/' + book.isbn, {
+        ...book,
+      });
+
+      const data = UserResponse.data;
+      return data;
+    } catch (e) {
+      const error = e as AxiosError;
+      return error;
+    }
+  }
+);
+
+export const addBook = createAsyncThunk(
+  'addBook',
+  async (book: any) => {
+    try {
+      const UserResponse = await axiosInstance.post('/books', {
         ...book,
       });
 
@@ -52,6 +68,7 @@ export interface IBookInputs {
   author: string;
   category: string;
   image: string;
+  email?: string;
 }
 
 export interface BookState {  
@@ -63,8 +80,6 @@ const initialState: BookState = {
   book: null,
   books: [] = [],
 }
-
-//const initialState: books[] = [];
 
 const bookSlice = createSlice({
   name: 'book',

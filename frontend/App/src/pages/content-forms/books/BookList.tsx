@@ -17,13 +17,11 @@ const BookList = () => {
   }
 
   function  editBook(id:number) {
-        navigate(`/content/book/${id}`);
-        //this.props.history.push(`/edit/book/${id}`);
+        navigate(`/content/book/${id}`);        
   }
 
   function  addBook() {
-        //navigate(`/edit/book/${isbn}`);
-        //this.props.history.push(`/edit/book/${id}`);
+        navigate(`/content/book/add`);        
   }
   
   return (
