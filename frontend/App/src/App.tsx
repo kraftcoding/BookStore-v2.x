@@ -38,14 +38,14 @@ const App = () => {
           </Route>
           <Route path="/blog" element={<Blog />} />
           <Route path="/about" element={<About />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/user/profile" element={<Profile />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/favorite" element={<Favorite />} />
           <Route path="/*" element={<NotFound />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/edit/book/:id" element={<EditBook />} />
-          <Route path="/edit/book-list" element={<BookListComponent />} />
+          <Route path="/user/login" element={<Login />} />
+          <Route path="/user/register" element={<Register />} />
+          <Route path="/content/book/:id" element={<EditBook />} />
+          <Route path="/content/book-list" element={<BookListComponent />} />
         </Routes>
         <Footer />
       </BrowserRouter>

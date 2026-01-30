@@ -117,7 +117,7 @@ const Login = () => {
               }}
             >
               <Typography variant="h6">Don't have an account yet?</Typography>
-              <Button variant="text" onClick={() => navigate('/register')}>
+              <Button variant="text" onClick={() => navigate('/user/register')}>
                 Register
               </Button>
             </Box>

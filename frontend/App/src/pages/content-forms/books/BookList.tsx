@@ -17,7 +17,7 @@ const BookList = () => {
   }
 
   function  editBook(id:number) {
-        navigate(`/edit/book/${id}`);
+        navigate(`/content/book/${id}`);
         //this.props.history.push(`/edit/book/${id}`);
   }
 
@@ -28,13 +28,13 @@ const BookList = () => {
   
   return (
     <div>
-      <h2 className="text-center">Users List</h2>
-      <div className = "row">
-        <button className="btn btn-primary" onClick={ () => addBook()}> Add Book</button>
+      <h2 >Users List</h2>
+      <div>
+        <button onClick={ () => addBook()}> Add Book</button>
         </div>
         <br></br>
-        <div className = "row">
-          <table className = "table table-striped table-bordered">
+        <div >
+          <table>
             <thead>
                 <tr>
                   <th> Title</th>
@@ -55,9 +55,9 @@ const BookList = () => {
                       <td> {book.author}</td>
                       <td> {book.category}</td>
                       <td>
-                        <button onClick={ () => editBook(book.isbn)} className="btn btn-info">Update </button>
-                        <button style={{marginLeft: "10px"}} onClick={ () => deleteBook(book.isbn)} className="btn btn-danger">Delete </button>
-                        <button style={{marginLeft: "10px"}} onClick={ () => viewBook(book.isbn)} className="btn btn-info">View </button>
+                        <button onClick={ () => editBook(book.isbn)} >Update </button>
+                        <button style={{marginLeft: "10px"}} onClick={ () => deleteBook(book.isbn)} >Delete </button>
+                        <button style={{marginLeft: "10px"}} onClick={ () => viewBook(book.isbn)} >View </button>
                       </td>
                     </tr>
                 )

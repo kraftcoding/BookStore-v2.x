@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 
 export const PageContainer = styled(Container)`
   height: 100%;
-  // background-color: pink;
+  // background-color: lightBlue;
   display: flex;
   flex-direction: column;
 `;

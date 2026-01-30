@@ -8,7 +8,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LoaningCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
-import ListAltIcon from '@mui/icons-material/ListAlt';
+//import ListAltIcon from '@mui/icons-material/ListAlt';
+import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
 
 import {
   MenuContainer,
@@ -201,31 +202,25 @@ const Navbar = () => {
               )}
             </IconButton>            
 
-            {authInfo.loggedIn ? (
-              
+            {authInfo.loggedIn ? (                       
               <Box
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
-                  alignItems: 'center',
+                  alignItems: 'center',                  
                 }}>
-
-                <CartLink to="/edit/book-list">
-                  <ListAltIcon/>
-                </CartLink>                
-
-                <CartLink to="/profile">
-                  <Avatar
-                    sx={{
-                      bgcolor: lightBlue,
-                      width: 35,
-                      height: 35,
-                    }}>
-                    <h4>{authInfo.userInfo?.initials}</h4>
-                  </Avatar>
-                </CartLink>                
-
+                <IconButton size="large" color="inherit">   
+                  <CartLink to="/content/book-list">
+                    <PermDataSettingIcon/>
+                  </CartLink>                
+                </IconButton>  
+                <IconButton size="large" color="inherit">
+                  <CartLink to="/user/profile">
+                    <AccountBoxOutlinedIcon />
+                  </CartLink> 
+                </IconButton>  
               </Box>
+              
             ) : (
               <IconButton
                 size="large"
@@ -234,7 +229,7 @@ const Navbar = () => {
                 aria-haspopup="true"
                 color="inherit"
               >
-                <CartLink to="/login">
+                <CartLink to="/user/login">
                   <AccountBoxOutlinedIcon />
                 </CartLink>
               </IconButton>
@@ -269,4 +264,5 @@ const Navbar = () => {
     </>
   );
 };
+
 export default Navbar;

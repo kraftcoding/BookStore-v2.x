@@ -80,7 +80,7 @@ const Profile = () => {
       try {              
         const res = await dispatch(updateBook(state)).unwrap();          
         if (res.status === undefined) {  
-           navigate(`/edit/book-list`);
+           navigate(`/content/book-list`);
         }         
         if (res.status === 401) {  
           console.log(res.message);

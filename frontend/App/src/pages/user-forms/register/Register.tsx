@@ -31,7 +31,7 @@ const Register: React.FC = () => {
   });
   const onSubmit = handleSubmit((data) => {
     dispatch(registerUser(data));
-    navigate('/login');
+    navigate('/user/login');
   });
 
   return (
@@ -87,7 +87,7 @@ const Register: React.FC = () => {
             </Button>
           </Box>
           <Box
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/user/login')}
             sx={{
               width: '100%',
               display: 'flex',
