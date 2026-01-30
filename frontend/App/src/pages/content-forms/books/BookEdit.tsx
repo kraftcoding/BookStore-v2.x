@@ -115,19 +115,7 @@ const Profile = () => {
                 </span>          
                 <form onSubmit={handleSubmit(onSubmit)}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <TextField
-                variant="outlined"
-                //label="Title"
-                autoComplete="title"
-                //{...register('title', { required: 'Required' })}
-                {...register('title')}
-                error={!!errors.title}
-                helperText={errors.title ? errors.title.message : null}
-                sx={{ mb: 2 }}
-                type="name"
-                value={state.title}
-                onChange={handleChange}   
-              />
+            
               <TextField
                 variant="outlined"
                 //label="ISBN"
@@ -141,6 +129,19 @@ const Profile = () => {
                 value={params.id}
                 //onChange={handleChange}   
                 disabled={isDisabled}                
+              />
+              <TextField
+                variant="outlined"
+                //label="Title"
+                autoComplete="title"
+                //{...register('title', { required: 'Required' })}
+                {...register('title')}
+                error={!!errors.title}
+                helperText={errors.title ? errors.title.message : null}
+                sx={{ mb: 2 }}
+                type="name"
+                value={state.title}
+                onChange={handleChange}   
               />
               <TextField
                 variant="outlined"

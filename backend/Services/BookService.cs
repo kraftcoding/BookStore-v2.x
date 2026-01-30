@@ -50,6 +50,7 @@ public sealed class BookService(ApplicationDbContext context) : IBookService
         bookObj.ISBN = book.ISBN;
         bookObj.Description = book.Description;
         bookObj.Author = book.Author;
+        bookObj.Category = book.Category;
 
         await context.SaveChangesAsync(cancellationToken);
     }
