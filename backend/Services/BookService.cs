@@ -6,23 +6,49 @@ public sealed class BookService(ApplicationDbContext context) : IBookService
     {
         context.Add(book);
 
+        var category = await context.Categories.FirstOrDefaultAsync(b => b.Name == book.Category, cancellationToken);
+
+        if (category is null && !string.IsNullOrEmpty(book.Category))
+        {
+            var newCategory = new Category();
+            newCategory.Name = book.Category;
+            context.Categories.Add(newCategory);
+        }
+
         await context.SaveChangesAsync(cancellationToken);
+
         return book.Id;
     }
 
     public async Task DeleteBookByIdAsync(string id, CancellationToken cancellationToken)
     {
-        var book = await context.Books
-             .FirstOrDefaultAsync(b => b.ISBN == id, cancellationToken);
+        var book = await context.Books.FirstOrDefaultAsync(b => b.ISBN == id, cancellationToken);
 
         if (book is null)
         {
             throw new ArgumentException($"Book is not foud Id {id}");
         }
 
-        context.Remove(book);
+        var category = book.Category;
 
-        await context.SaveChangesAsync(cancellationToken);
+        context.Remove(book);      
+        
+        var res = context.SaveChangesAsync(cancellationToken);
+
+        book = await context.Books.FirstOrDefaultAsync(b => b.Category == category, cancellationToken);
+
+        if (book is null)
+        {
+            var categoryToDelete = await context.Categories.FirstOrDefaultAsync(b => b.Name == category, cancellationToken);
+
+            if (categoryToDelete is not null)
+            {
+                context.Remove(categoryToDelete);
+                context.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        await  res;
     }
 
     public async Task<Book?> GetBookByIdAsync(int id, CancellationToken cancellationToken)
@@ -38,8 +64,7 @@ public sealed class BookService(ApplicationDbContext context) : IBookService
 
     public async Task UpdateBookAsync(Book book, CancellationToken cancellationToken)
     {
-        var bookObj = await context.Books
-             .FirstOrDefaultAsync(b => b.ISBN == book.ISBN, cancellationToken);
+        var bookObj = await context.Books.FirstOrDefaultAsync(b => b.ISBN == book.ISBN, cancellationToken);
 
         if (bookObj is null)
         {
@@ -51,6 +76,16 @@ public sealed class BookService(ApplicationDbContext context) : IBookService
         bookObj.Description = book.Description;
         bookObj.Author = book.Author;
         bookObj.Category = book.Category;
+        bookObj.Image = book.Image;
+
+        var category = await context.Categories.FirstOrDefaultAsync(b => b.Name == book.Category, cancellationToken);
+
+        if (category is null && !string.IsNullOrEmpty(book.Category))
+        {
+            var newCategory = new Category();
+            newCategory.Name = book.Category;
+            context.Categories.Add(newCategory);
+        }
 
         await context.SaveChangesAsync(cancellationToken);
     }

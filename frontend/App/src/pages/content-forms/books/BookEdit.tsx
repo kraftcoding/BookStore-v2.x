@@ -9,13 +9,9 @@ import * as yup from 'yup';
 import { BookContainer, BookInfoContainer } from './BookEdit.styles';
 import { fetchBook, IBookInputs, updateBook } from '../../../redux/reducers/bookSlice';
 
-import { createAsyncThunk } from '@reduxjs/toolkit';
- 
-
-
 const bookSchema = yup.object({
-  title: yup.string().required('Title is required'),
-  isbn: yup.string().required('ISBN is required')
+  //title: yup.string().required('Title is required'),
+  //isbn: yup.string().required('ISBN is required')
 });
 
 const Profile = () => {
@@ -79,8 +75,6 @@ const Profile = () => {
     resolver: yupResolver(bookSchema),
   });
 
-  
-
   const onSubmit = async () => {
       try {              
         const res = await dispatch(updateBook(state)).unwrap();          
@@ -112,7 +106,7 @@ const Profile = () => {
                 <Box>
                   <Typography variant="h6">Edit Book</Typography>
                 </Box>  
-                <span>
+                  <span style={{ padding: '20px', color: 'red' }}>
                   {" "}
                   {error} {success}
                 </span>          

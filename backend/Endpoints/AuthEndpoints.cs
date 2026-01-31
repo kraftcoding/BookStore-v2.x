@@ -1,9 +1,4 @@
-﻿//using Books.Api.Docker.Models;
-//using Microsoft.AspNetCore.Authorization;
-//using Microsoft.AspNetCore.Mvc;
-//using System.Threading;
-
-namespace Auth.Api.Docker.Endpoints;
+﻿namespace Auth.Api.Docker.Endpoints;
 
 public static class AuthEndpoints
 {
@@ -12,16 +7,11 @@ public static class AuthEndpoints
         var UserGroup = app.MapGroup("api/Auth");
 
         UserGroup.MapPost("", RegisterUser).WithName(nameof(RegisterUser));
-
         UserGroup.MapPost("/loginUser", LoginUser).WithName(nameof(LoginUser));
-
         UserGroup.MapPut("/updateProfile", UpdateProfile).WithName(nameof(UpdateProfile));
     }
 
-    public static async Task<IResult> RegisterUser(
-             RegisterUserRequest request,
-             IAuthService UserService,
-             CancellationToken cancellationToken)
+    public static async Task<IResult> RegisterUser(RegisterUserRequest request, IAuthService UserService, CancellationToken cancellationToken)
     {
         var user = request.ToEntity();        
 
@@ -42,13 +32,10 @@ public static class AuthEndpoints
     }
 
     // a simple cache based token validation is implemented here instead a middleware validation 
-    public static async Task<IResult> LoginUser(
-             LoginUserRequest request,
-             IAuthService UserService,
-             CancellationToken cancellationToken,
-              IRedisCacheService cacheService)
+    public static async Task<IResult> LoginUser(LoginUserRequest request, IAuthService UserService, CancellationToken cancellationToken, IRedisCacheService cacheService)
     {
         var response = await UserService.LoginAsync(request, cancellationToken);
+
         switch (response.Status)
         {
             case "Error":
@@ -64,13 +51,8 @@ public static class AuthEndpoints
         return Results.Ok(response);
     }
 
-
-    // instead validation middleware is used, a simple cache based token validation is implemented here    
-    public static async Task<IResult> UpdateProfile(
-            UpdateProfileRequest request,
-            IAuthService UserService,
-            CancellationToken cancellationToken,
-            IRedisCacheService cacheService)
+    // instead validation middleware, is used a simple cache based token validation is implemented here    
+    public static async Task<IResult> UpdateProfile(UpdateProfileRequest request, IAuthService UserService, CancellationToken cancellationToken, IRedisCacheService cacheService)
     {
         if(!await IsAuthenticated(request.Email, cacheService, cancellationToken))
         {
@@ -108,5 +90,4 @@ public static class AuthEndpoints
             token,
             cancellationToken);
     }
-
 }

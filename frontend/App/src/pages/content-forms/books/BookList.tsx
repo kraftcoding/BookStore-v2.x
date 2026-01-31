@@ -2,7 +2,7 @@ import { Box, Button, Container, Paper, TextField, Typography } from '@mui/mater
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHook';
 import { useEffect, useState } from 'react';
-import { fetchAllBooks } from '../../../redux/reducers/bookSlice';
+import { fetchAllBooks, postDeleteBook } from '../../../redux/reducers/bookSlice';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
@@ -25,6 +25,9 @@ const BookList = () => {
   const rows = useAppSelector((state) => state.bookReducer.books);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
+  const authInfo = useAppSelector((state) => state.auth);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   useEffect(() => {
       dispatch(fetchAllBooks())
@@ -32,16 +35,26 @@ const BookList = () => {
         .catch(() => setLoading(false));
     }, [dispatch]); 
 
-  function deleteBook (id:number) {
-       
-  }
-    
+  async function deleteBook(id:number) {
+        var email = authInfo.userInfo?.email;          
+        var request: any = {email: email, isbn: id};
+        var res = await dispatch(postDeleteBook(request));  
+        if (res.payload === undefined || res.payload === 200) {        
+            console.log("Book deleted");
+            window.location.reload();  
+        }
+        else {
+            console.log("Error deleting book");
+            setError("Error deleting book");
+        }                     
+  }    
 
-  function  editBook(id:number) {
-        navigate(`/content/book/${id}`);        
+  function editBook(id:number) {
+        var email = authInfo.userInfo?.email;   
+        navigate(`/content/book/${id }`);        
   }
 
-  function  addBook() {
+  function addBook() {
         navigate(`/content/book/add`);        
   }
 
@@ -157,20 +170,23 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   return (
     <div>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-        <Typography variant="h6">Manage Books</Typography>      
-        <Button variant="contained" color="primary" onClick={() => addBook()}>Add Book</Button>
-      </Box>  
-   
-      
+        <Typography variant="h6">Manage Books</Typography>   
+        <span style={{ padding: '20px', color: 'red' }}>
+          {" "}
+          {error} {success}
+         </span>                     
+      </Box>   
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableHead>
             <TableRow>
               <StyledTableCell>Title</StyledTableCell>
-              <StyledTableCell align="right">ISBN</StyledTableCell>
-              <StyledTableCell align="right">Description</StyledTableCell>
-              <StyledTableCell align="right">Author</StyledTableCell>
-              <StyledTableCell align="right">Category</StyledTableCell>
+              <StyledTableCell align="left">ISBN</StyledTableCell>
+              <StyledTableCell align="left">Description</StyledTableCell>
+              <StyledTableCell align="left">Author</StyledTableCell>
+              <StyledTableCell align="left">Category</StyledTableCell>
+              <StyledTableCell align="left"></StyledTableCell>
+              <StyledTableCell align="left"><Button variant="contained" color="warning" onClick={() => addBook()}>Add Book</Button></StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -179,26 +195,26 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
               : rows
             ).map((row) => (
               <StyledTableRow key={row.isbn}>
-                <TableCell style={{ width: 160 }} align="right" component="th" scope="row">
+                <TableCell style={{ width: 160 }} align="left" component="th" scope="row">
                   {row.title}
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
+                <TableCell style={{ width: 160 }} align="left">
                   {row.isbn}
                 </TableCell>       
-                <TableCell style={{ width: 360 }} align="right">
+                <TableCell style={{ width: 360 }} align="left">
                   {row.description}
                 </TableCell>           
-                <TableCell style={{ width: 160 }} align="right">
+                <TableCell style={{ width: 160 }} align="left">
                   {row.author}
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
+                <TableCell style={{ width: 160 }} align="left">
                   {row.category}
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
+                <TableCell style={{ width: 160 }} align="left">
                   <Button variant="contained" color="info" onClick={() => editBook(row.isbn)}>Edit</Button>
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
-                  <Button variant="contained" color="warning" onClick={() => deleteBook(row.isbn)}>Delete</Button>
+                <TableCell style={{ width: 160 }} align="left">
+                  <Button variant="contained" color="info" onClick={() => deleteBook(row.isbn)}>Delete</Button>
                 </TableCell>             
               </StyledTableRow>
             ))}

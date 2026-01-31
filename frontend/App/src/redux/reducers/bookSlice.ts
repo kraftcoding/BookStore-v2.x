@@ -61,6 +61,23 @@ export const addBook = createAsyncThunk(
   }
 );
 
+export const postDeleteBook = createAsyncThunk(
+  'deleteBook',
+  async (postdata: any) => {
+    try {
+      const UserResponse = await axiosInstance.post('/books/delete', {
+        ...postdata,
+      });
+
+      const data = UserResponse.data;
+      return data.status;
+    } catch (e) {
+      const error = e as AxiosError;
+      return error.status;
+    }
+  }
+);
+
 export interface IBookInputs {
   title: string;
   isbn: string;

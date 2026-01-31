@@ -1,7 +1,4 @@
-﻿using Books.Api.Docker.Entities;
-using System.Threading;
-
-namespace Books.Api.Docker.Endpoints;
+﻿namespace Books.Api.Docker.Endpoints;
 
 public static class BookEndpoints
 {
@@ -10,20 +7,13 @@ public static class BookEndpoints
         var bookGroup = app.MapGroup("api/Books");
 
         bookGroup.MapGet("", GetAllBooks).WithName(nameof(GetAllBooks));
-
         bookGroup.MapGet("{id}", GetBook).WithName(nameof(GetBook));
-
         bookGroup.MapPost("", CreateBook).WithName(nameof(CreateBook));
-
         bookGroup.MapPut("{id}", UpdateBook).WithName(nameof(UpdateBook));
-
-        bookGroup.MapDelete("{id}", DeleteBook).WithName(nameof(DeleteBook));
+        bookGroup.MapPost("/delete", DeleteBook).WithName(nameof(DeleteBook));
     }
 
-    public static async Task<IResult> GetAllBooks(
-        IBookService bookService,
-        IRedisCacheService cacheService,
-        CancellationToken cancellationToken)
+    public static async Task<IResult> GetAllBooks(IBookService bookService, IRedisCacheService cacheService, CancellationToken cancellationToken)
     {
         var cacheKey = "books";
 
@@ -53,11 +43,7 @@ public static class BookEndpoints
         return Results.Ok(books.Select(b => b.ToResponseDto()));
     }
 
-    public static async Task<IResult> GetBook(
-         int id,
-         IBookService bookService,
-         IRedisCacheService cacheService,
-         CancellationToken cancellationToken)
+    public static async Task<IResult> GetBook(int id, IBookService bookService, IRedisCacheService cacheService, CancellationToken cancellationToken)
     {
         var cacheKey = $"book_{id}";
 
@@ -87,11 +73,7 @@ public static class BookEndpoints
         return Results.Ok(response);
     }
 
-    public static async Task<IResult> CreateBook(
-            CreateBookRequest request,
-            IBookService bookService,
-            CancellationToken cancellationToken,
-            IRedisCacheService cacheService)
+    public static async Task<IResult> CreateBook(CreateBookRequest request, IBookService bookService, CancellationToken cancellationToken, IRedisCacheService cacheService)
     {
         if (!await IsAuthenticated(request.Email, cacheService, cancellationToken))
         {
@@ -110,12 +92,7 @@ public static class BookEndpoints
             book);
     }
 
-    public static async Task<IResult> UpdateBook(
-            int id,
-            UpdateBookRequest request,
-            IBookService bookService,
-            IRedisCacheService cacheService,
-            CancellationToken cancellationToken)
+    public static async Task<IResult> UpdateBook(int id, UpdateBookRequest request, IBookService bookService, IRedisCacheService cacheService, CancellationToken cancellationToken)
     {
         if (!await IsAuthenticated(request.Email, cacheService, cancellationToken))
         {
@@ -124,12 +101,13 @@ public static class BookEndpoints
 
         try
         {
-            var cacheKey = $"book_{id}";
-
             var book = request.ToEntity(id);
 
             await bookService.UpdateBookAsync(book, cancellationToken);
 
+            var cacheKey = $"book_{id}";
+
+            ClearCacheForBookId(cacheKey, cacheService, cancellationToken);
             ClearCacheForBooks(cacheService, cancellationToken);
 
             return Results.NoContent();
@@ -140,12 +118,7 @@ public static class BookEndpoints
         }
     }
 
-    public static async Task<IResult> DeleteBook(
-            int id,
-            DeleteBookRequest request,
-            IBookService bookService,
-            IRedisCacheService cacheService,
-            CancellationToken cancellationToken)
+    public static async Task<IResult> DeleteBook(DeleteBookRequest request, IBookService bookService, IRedisCacheService cacheService, CancellationToken cancellationToken)
     {
         if (!await IsAuthenticated(request.Email, cacheService, cancellationToken))
         {
@@ -183,6 +156,13 @@ public static class BookEndpoints
     internal static async void ClearCacheForBooks(IRedisCacheService cacheService, CancellationToken cancellationToken)
     {
         var cacheKey = "books";
+        await cacheService.RemoveDataAsync(
+            cacheKey,
+            cancellationToken);
+    }
+
+    internal static async void ClearCacheForBookId(String cacheKey,  IRedisCacheService cacheService, CancellationToken cancellationToken)
+    {       
         await cacheService.RemoveDataAsync(
             cacheKey,
             cancellationToken);

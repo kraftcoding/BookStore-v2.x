@@ -32,7 +32,7 @@ const NewArrivalsSection = () => {
         <BookCardsContainer>
           {bookReducer.books.length > 0 &&
             bookReducer.books
-              .slice(1, 7)
+              .slice(0, 6)
               .map((book) => (
                 <BooktCard key={book.id} book={book} />
               ))}

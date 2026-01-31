@@ -18,7 +18,7 @@ const MostPopularSection = () => {
       <BookCardsContainer>
         {books.books.length > 0 &&
           books.books
-            .slice(8, 14)
+            .slice(2, 4)
             .map((book) => (
               <BookCard key={book.id} book={book} />
             ))}

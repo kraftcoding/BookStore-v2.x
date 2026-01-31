@@ -6,6 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { BookContainer, BookInfoContainer } from './BookEdit.styles';
 import { IBookInputs, addBook } from '../../../redux/reducers/bookSlice';
+import { useState } from 'react';
+import { Padding } from '@mui/icons-material';
 
 const bookSchema = yup.object({
   title: yup.string().required('Title is required'),
@@ -13,6 +15,8 @@ const bookSchema = yup.object({
 });
 
 const BookAdd: React.FC = () => {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const authInfo = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -22,17 +26,27 @@ const BookAdd: React.FC = () => {
     formState: { errors },
   } = useForm<IBookInputs>({
     resolver: yupResolver(bookSchema),
-  });
+  }); 
 
-  const onSubmit = handleSubmit((data) => {
-    dispatch(addBook(data));
-    /*navigate('/content/book-list');*/
-  });  
+    const onSubmit = async (data: IBookInputs) => {
+        try {              
+          const res = await dispatch(addBook(data)).unwrap();          
+          if (res.status === undefined) {  
+             navigate(`/content/book-list`);
+          }         
+          if (res.status === 401) {  
+            console.log(res.message);
+            setError(res.message);      
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      };
+  
 
   return (
     <BookContainer>     
-      <BookInfoContainer>
-       
+      <BookInfoContainer>               
               <Box
                 sx={{
                   width: '100%',
@@ -44,8 +58,12 @@ const BookAdd: React.FC = () => {
                
                 <Box>
                   <Typography variant="h5">Add Book</Typography>
-                </Box>                        
-                <form onSubmit={onSubmit}>
+                </Box>          
+                 <span style={{ padding: '20px', color: 'red' }}>
+                  {" "}
+                  {error} {success}
+                </span>                
+               <form onSubmit={handleSubmit(onSubmit)}>
                   <Box sx={{ display: 'flex', flexDirection: 'column' }}>  
                     <div style={{ display: 'none' }}>                      
                       <TextField
