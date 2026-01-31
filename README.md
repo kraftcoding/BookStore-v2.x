@@ -60,8 +60,15 @@ If you want to test the React App in your development environment, run the next 
 - **Docker Compose**: Manages multi-container applications seamlessly.
 - **PostgreSQL**: Powerful relational database for data storage.
 - **Redis**: Caching solution for improved performance.
-- **Health Check**: Standardized approach for monitoring and assessing the operational status of systems.
-
+- **JWT Authentication and Authorization**: Secure access to API endpoints.
+- **CI/CD with GitHub Actions**: Automated workflows for building, testing, and deploying the application.
+- **Entity Framework Core**: Simplifies data access with ORM capabilities.
+- **Swagger Integration**: Interactive API documentation for easy testing and exploration.
+- **Responsive React Frontend**: User-friendly interface for managing books.
+- **Error Handling and Logging**: Robust mechanisms for tracking and resolving issues.
+- **Scalability**: Designed to handle increased load with ease.
+- **Modular Codebase**: Organized structure for maintainability and extensibility.
+- 
 ## Technologies Used
 
 - **React 18**
@@ -69,3 +76,16 @@ If you want to test the React App in your development environment, run the next 
 - **PostgreSQL**
 - **Redis**
 - **EF Core**
+- **Docker Compose**
+- **GitHub Actions**
+- **Swagger**
+- **JWT**
+- **Axios**
+
+## Environment and tests
+
+To switch between Development and Production environments, modify the next URLs.
+
+- API_BASE_URL in Axios instance located in `src\common\api\axiosInstance.js`
+- Connection string in AppSettings.json located in `BookStore.API\AppSettings.json`
+- The ValidIssuer and ValidAudience in AppSettings.json located in `BookStore.API\AppSettings.json`
