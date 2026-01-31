@@ -3,24 +3,22 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHook';
 import { useEffect, useState } from 'react';
 import { fetchAllBooks } from '../../../redux/reducers/bookSlice';
-
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
-//import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-//import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-
+import TableHead from '@mui/material/TableHead';
+import { styled } from '@mui/material/styles';
 
 const BookList = () => {
   const navigate = useNavigate();  
@@ -35,14 +33,9 @@ const BookList = () => {
     }, [dispatch]); 
 
   function deleteBook (id:number) {
-       /* UserService.deleteBook(id).then( res => {
-            this.setState({users: this.state.users.filter(user => user.id !== id)});
-        });*/
+       
   }
     
-  function viewBook(id:number) {
-        //this.props.history.push(`/view-user/${id}`);
-  }
 
   function  editBook(id:number) {
         navigate(`/content/book/${id}`);        
@@ -51,7 +44,6 @@ const BookList = () => {
   function  addBook() {
         navigate(`/content/book/add`);        
   }
-
 
   interface TablePaginationActionsProps {
     count: number;
@@ -119,7 +111,6 @@ const BookList = () => {
     );
   }
 
-
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -141,70 +132,107 @@ const BookList = () => {
     setPage(0);
   };
 
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.common.white,
+    fontWeight: 'bold',
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+    
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-        <TableBody>
-          {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
-          ).map((row) => (
-            <TableRow key={row.isbn}>
-              <TableCell style={{ width: 160 }} align="right" component="th" scope="row">
-                {row.title}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                {row.isbn}
-              </TableCell>       
-              <TableCell style={{ width: 360 }} align="right">
-                {row.description}
-              </TableCell>           
-              <TableCell style={{ width: 160 }} align="right">
-                {row.author}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                {row.category}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                <Button variant="contained" color="primary" onClick={() => editBook(row.id)}>Edit</Button>
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                <Button variant="contained" color="secondary" onClick={() => deleteBook(row.id)}>Delete</Button>
-              </TableCell>
-              
+    <div>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Typography variant="h6">Manage Books</Typography>      
+        <Button variant="contained" color="primary" onClick={() => addBook()}>Add Book</Button>
+      </Box>  
+   
+      
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Title</StyledTableCell>
+              <StyledTableCell align="right">ISBN</StyledTableCell>
+              <StyledTableCell align="right">Description</StyledTableCell>
+              <StyledTableCell align="right">Author</StyledTableCell>
+              <StyledTableCell align="right">Category</StyledTableCell>
             </TableRow>
-          ))}
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={3}
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              slotProps={{
-                select: {
-                  inputProps: {
-                    'aria-label': 'rows per page',
+          </TableHead>
+          <TableBody>
+            {(rowsPerPage > 0
+              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : rows
+            ).map((row) => (
+              <StyledTableRow key={row.isbn}>
+                <TableCell style={{ width: 160 }} align="right" component="th" scope="row">
+                  {row.title}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="right">
+                  {row.isbn}
+                </TableCell>       
+                <TableCell style={{ width: 360 }} align="right">
+                  {row.description}
+                </TableCell>           
+                <TableCell style={{ width: 160 }} align="right">
+                  {row.author}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="right">
+                  {row.category}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="right">
+                  <Button variant="contained" color="info" onClick={() => editBook(row.isbn)}>Edit</Button>
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="right">
+                  <Button variant="contained" color="warning" onClick={() => deleteBook(row.isbn)}>Delete</Button>
+                </TableCell>             
+              </StyledTableRow>
+            ))}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                colSpan={3}
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                slotProps={{
+                  select: {
+                    inputProps: {
+                      'aria-label': 'rows per page',
+                    },
+                    native: true,
                   },
-                  native: true,
-                },
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
+    </div>
   );
 };
 

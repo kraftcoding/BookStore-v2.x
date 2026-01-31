@@ -17,7 +17,7 @@ public static class BookEndpoints
 
         bookGroup.MapPut("{id}", UpdateBook).WithName(nameof(UpdateBook));
 
-        //bookGroup.MapDelete("{id}", DeleteBook).WithName(nameof(DeleteBook));
+        bookGroup.MapDelete("{id}", DeleteBook).WithName(nameof(DeleteBook));
     }
 
     public static async Task<IResult> GetAllBooks(

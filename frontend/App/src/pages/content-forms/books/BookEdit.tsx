@@ -9,9 +9,13 @@ import * as yup from 'yup';
 import { BookContainer, BookInfoContainer } from './BookEdit.styles';
 import { fetchBook, IBookInputs, updateBook } from '../../../redux/reducers/bookSlice';
 
+import { createAsyncThunk } from '@reduxjs/toolkit';
+ 
+
+
 const bookSchema = yup.object({
-  //title: yup.string().required('Title is required'),
-  //isbn: yup.string().required('ISBN is required')
+  title: yup.string().required('Title is required'),
+  isbn: yup.string().required('ISBN is required')
 });
 
 const Profile = () => {
@@ -75,6 +79,7 @@ const Profile = () => {
     resolver: yupResolver(bookSchema),
   });
 
+  
 
   const onSubmit = async () => {
       try {              
@@ -84,13 +89,12 @@ const Profile = () => {
         }         
         if (res.status === 401) {  
           console.log(res.message);
-          setError(res.message);
+          setError(res.message);      
         }
       } catch (e) {
         console.log(e);
       }
     };
-
 
   return (    
     <BookContainer>     
@@ -106,111 +110,111 @@ const Profile = () => {
               >
                
                 <Box>
-                  <Typography variant="h5">Edit Book</Typography>
+                  <Typography variant="h6">Edit Book</Typography>
                 </Box>  
                 <span>
                   {" "}
                   {error} {success}
                 </span>          
                 <form onSubmit={handleSubmit(onSubmit)}>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            
-              <TextField
-                variant="outlined"
-                //label="ISBN"
-                autoComplete="isbn"
-                //{...register('isbn', { required: 'Required' })}
-                {...register('isbn')}
-                error={!!errors.isbn}
-                helperText={errors.isbn ? errors.isbn.message : null}
-                sx={{ mb: 2 }}
-                type="isbn"
-                value={params.id}
-                //onChange={handleChange}   
-                disabled={isDisabled}                
-              />
-              <TextField
-                variant="outlined"
-                //label="Title"
-                autoComplete="title"
-                //{...register('title', { required: 'Required' })}
-                {...register('title')}
-                error={!!errors.title}
-                helperText={errors.title ? errors.title.message : null}
-                sx={{ mb: 2 }}
-                type="name"
-                value={state.title}
-                onChange={handleChange}   
-              />
-              <TextField
-                variant="outlined"
-                //label="author"
-                //autoComplete="author"
-                {...register('author')}
-                error={!!errors.author}
-                helperText={errors.author ? errors.author.message : null}
-                sx={{ mb: 2 }}
-                type="name"
-                value={state.author}
-                onChange={handleChange}   
-              />
-              <TextField
-                rows={5}
-                multiline
-                variant="outlined"
-                //label="description"
-                autoComplete="description"
-                {...register('description')}
-                error={!!errors.description}
-                helperText={errors.description ? errors.description.message : null}
-                sx={{ mb: 2 }}
-                type="name"
-                value={state.description}
-                onChange={handleChange}   
-              />
-               <TextField
-                variant="outlined"
-                //label="author"
-                //autoComplete="author"
-                {...register('category')}
-                error={!!errors.category}
-                helperText={errors.category ? errors.category.message : null}
-                sx={{ mb: 2 }}
-                type="name"
-                value={state.category}
-                onChange={handleChange}   
-              />
-               <TextField
-                rows={2}
-                multiline
-                variant="outlined"
-                //label="description"
-                autoComplete="image"
-                {...register('image')}
-                error={!!errors.image}
-                helperText={errors.image ? errors.image.message : null}
-                sx={{ mb: 2 }}
-                type="name"
-                value={state.image}
-                onChange={handleChange}   
-              />
+                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  
+                    <TextField
+                      variant="outlined"
+                      //label="ISBN"
+                      autoComplete="isbn"
+                      //{...register('isbn', { required: 'Required' })}
+                      {...register('isbn')}
+                      error={!!errors.isbn}
+                      helperText={errors.isbn ? errors.isbn.message : null}
+                      sx={{ mb: 2 }}
+                      type="isbn"
+                      value={params.id}
+                      //onChange={handleChange}   
+                      disabled={isDisabled}                
+                    />
+                    <TextField
+                      variant="outlined"
+                      //label="Title"
+                      autoComplete="title"
+                      //{...register('title', { required: 'Required' })}
+                      {...register('title')}
+                      error={!!errors.title}
+                      helperText={errors.title ? errors.title.message : null}
+                      sx={{ mb: 2 }}
+                      type="name"
+                      value={state.title}
+                      onChange={handleChange}   
+                    />
+                    <TextField
+                      variant="outlined"
+                      //label="author"
+                      //autoComplete="author"
+                      {...register('author')}
+                      error={!!errors.author}
+                      helperText={errors.author ? errors.author.message : null}
+                      sx={{ mb: 2 }}
+                      type="name"
+                      value={state.author}
+                      onChange={handleChange}   
+                    />
+                    <TextField
+                      rows={5}
+                      multiline
+                      variant="outlined"
+                      //label="description"
+                      autoComplete="description"
+                      {...register('description')}
+                      error={!!errors.description}
+                      helperText={errors.description ? errors.description.message : null}
+                      sx={{ mb: 2 }}
+                      type="name"
+                      value={state.description}
+                      onChange={handleChange}   
+                    />
+                    <TextField
+                      variant="outlined"
+                      //label="author"
+                      //autoComplete="author"
+                      {...register('category')}
+                      error={!!errors.category}
+                      helperText={errors.category ? errors.category.message : null}
+                      sx={{ mb: 2 }}
+                      type="name"
+                      value={state.category}
+                      onChange={handleChange}   
+                    />
+                    <TextField
+                      rows={2}
+                      multiline
+                      variant="outlined"
+                      //label="description"
+                      autoComplete="image"
+                      {...register('image')}
+                      error={!!errors.image}
+                      helperText={errors.image ? errors.image.message : null}
+                      sx={{ mb: 2 }}
+                      type="name"
+                      value={state.image}
+                      onChange={handleChange}   
+                    />
 
-              <Button variant="contained" type="submit">
-                Submit
-              </Button>
-            </Box>
-            <Box
-              sx={{
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                mt: 2,
-              }}
-            >             
-            </Box>
-          </form>             
+                    <Button variant="contained" type="submit">
+                      Submit
+                    </Button>
+                  </Box>
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      mt: 2,
+                    }}
+                  >             
+                  </Box>
+                </form>             
         </Box>     
       </BookInfoContainer>    
     </BookContainer>
