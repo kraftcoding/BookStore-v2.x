@@ -88,4 +88,4 @@ To switch between Development and Production environments, modify the next URLs.
 
 - API_BASE_URL in Axios instance located in `src\common\api\axiosInstance.js`
 - Connection string in AppSettings.json located in `BookStore.API\AppSettings.json`
-- The ValidIssuer and ValidAudience in AppSettings.json located in `BookStore.API\AppSettings.json`
+- The ValidIssuer and ValidAudience in AppSettings.json located in `BookStore.API\AppSettings.json` 
