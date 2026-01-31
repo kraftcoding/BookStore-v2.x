@@ -14,7 +14,7 @@ import Register from './pages/user-forms/register/Register';
 import Login from './pages/user-forms/login/Login';
 import Favorite from './pages/favorite/Favorite';
 import EditBook from './pages/content-forms/books/BookEdit';
-import BookListComponent from './pages/content-forms/books/BookList';
+import BookList from './pages/content-forms/books/BookList';
 import BookAdd from './pages/content-forms/books/BookAdd';
 
 const App = () => {
@@ -46,7 +46,7 @@ const App = () => {
           <Route path="/user/login" element={<Login />} />
           <Route path="/user/register" element={<Register />} />
           <Route path="/content/book/:id" element={<EditBook />} />
-          <Route path="/content/book-list" element={<BookListComponent />} />
+          <Route path="/content/book-list" element={<BookList/>} />
           <Route path="/content/book/add" element={<BookAdd />} />
         </Routes>
         <Footer />

@@ -92,10 +92,9 @@ const Profile = () => {
     };
 
 
-  return (
+  return (    
     <BookContainer>     
-      <BookInfoContainer>
-       
+      <BookInfoContainer>       
               <Box
                 sx={{
                   width: '100%',
