@@ -8,7 +8,7 @@ import {
 import BookCard from '../../book-card/BookCard';
 
 const MostPopularSection = () => {
-  const books = useAppSelector((state) => state.bookReducer);  
+  const bookReducer = useAppSelector((state) => state.bookReducer);  
 
   return (
     <SectionContainer maxWidth={false}>
@@ -16,8 +16,8 @@ const MostPopularSection = () => {
         <SectionName variant="h6">Most Popular</SectionName>
       </SectionNameContainer>
       <BookCardsContainer>
-        {books.books.length > 0 &&
-          books.books
+        {bookReducer.books != undefined && bookReducer.books.length > 0 &&
+          bookReducer.books
             .slice(2, 4)
             .map((book) => (
               <BookCard key={book.id} book={book} />

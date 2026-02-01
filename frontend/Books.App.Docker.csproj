@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <Compile Remove="App\node_modules\**" />
+    <Compile Remove="node_modules\**" />
     <EmbeddedResource Remove="App\node_modules\**" />
+    <EmbeddedResource Remove="node_modules\**" />
     <None Remove="App\node_modules\**" />
+    <None Remove="node_modules\**" />
   </ItemGroup>
 
 </Project>

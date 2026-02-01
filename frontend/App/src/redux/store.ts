@@ -38,6 +38,10 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 // Create the store with the persisted reducer
 export const store = configureStore({
   reducer: persistedReducer,
+   middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 // Create the persistor (optional, useful for rehydration)

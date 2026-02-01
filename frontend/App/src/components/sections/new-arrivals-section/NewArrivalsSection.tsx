@@ -30,7 +30,7 @@ const NewArrivalsSection = () => {
         <CircularProgress />
       ) : (
         <BookCardsContainer>
-          {bookReducer.books.length > 0 &&
+          {bookReducer.books != undefined && bookReducer.books.length > 0 &&
             bookReducer.books
               .slice(0, 6)
               .map((book) => (

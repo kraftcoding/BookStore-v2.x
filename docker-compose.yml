@@ -48,3 +48,13 @@ services:
      restart: always
      ports:
       - 6379:6379
+
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    environment:
+      - WATCHTOWER_CLEANUP=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    # command: WebAPI-.NET-8 (default is 24h)
+    command: --interval 300 books.api book.app  

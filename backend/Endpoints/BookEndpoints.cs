@@ -155,17 +155,32 @@ public static class BookEndpoints
 
     internal static async void ClearCacheForBooks(IRedisCacheService cacheService, CancellationToken cancellationToken)
     {
-        var cacheKey = "books";
-        await cacheService.RemoveDataAsync(
-            cacheKey,
-            cancellationToken);
+        try
+        {
+            var cacheKey = "books";
+            await cacheService.RemoveDataAsync(
+                cacheKey,
+                cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error clearing cache for books: {ex.Message}");
+        }       
     }
 
     internal static async void ClearCacheForBookId(String cacheKey,  IRedisCacheService cacheService, CancellationToken cancellationToken)
-    {       
-        await cacheService.RemoveDataAsync(
+    {
+        try 
+        {
+            await cacheService.RemoveDataAsync(
             cacheKey,
             cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error clearing cache for book");
+        }
+        
     }
 
 }
