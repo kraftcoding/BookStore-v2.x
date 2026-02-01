@@ -8,7 +8,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LoaningCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
-//import ListAltIcon from '@mui/icons-material/ListAlt';
 import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
 
 import {
@@ -24,8 +23,6 @@ import Typography from '@mui/material/Typography';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Book } from '../../types/book';
 import SearchResults from '../search/SearchResults';
-import Avatar from '@mui/material/Avatar';
-import { lightBlue } from '@mui/material/colors';
 import { addToCart } from '../../redux/reducers/cartSlice';
 
 const Search = styled('form')(({ theme }) => ({

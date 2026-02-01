@@ -38,6 +38,7 @@ export interface AuthState {
   errorMsg: string;
   isRegistered: boolean;
   userCartItems: [];
+  version?: string;
 }
 
 const initialState: AuthState = {
@@ -47,7 +48,21 @@ const initialState: AuthState = {
   errorMsg: '',
   isRegistered: false,
   userCartItems: [],
+  version: undefined,
 };
+
+export const getVersion = createAsyncThunk(
+  'getVersion',
+  async (id:string | undefined) => {
+    try {
+      const res = await axiosInstance.get('/Auth/version');
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 
 export const registerUser = createAsyncThunk(
   'registerUser',
@@ -136,6 +151,9 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {    
+    setVersion: (state, action: PayloadAction<string>) => {
+      state.version = action.payload;
+    },
     setUnregistered: (state) => {
       state.isRegistered = false;
     },
@@ -189,11 +207,11 @@ const authSlice = createSlice({
   },
 });
 
-export const { loginSuccess, loginFailure, logout, setUnregistered } =
+export const { loginSuccess, loginFailure, logout, setUnregistered, setVersion } =
   authSlice.actions;
 export const selectLoggedIn = (state: RootState) => state.auth.loggedIn;
 export const selectUser = (state: RootState) => state.auth.userInfo;
 export const selectError = (state: RootState) => state.auth.error;
 export const selectErrorMessage = (state: RootState) => state.auth.errorMsg;
-
+export const selectVersion = (state: RootState) => state.auth.version;
 export default authSlice.reducer;

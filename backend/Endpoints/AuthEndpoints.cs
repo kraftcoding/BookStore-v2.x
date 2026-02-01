@@ -9,6 +9,7 @@ public static class AuthEndpoints
         UserGroup.MapPost("", RegisterUser).WithName(nameof(RegisterUser));
         UserGroup.MapPost("/loginUser", LoginUser).WithName(nameof(LoginUser));
         UserGroup.MapPut("/updateProfile", UpdateProfile).WithName(nameof(UpdateProfile));
+        UserGroup.MapGet("/version", GetVersion).WithName(nameof(GetVersion));
     }
 
     public static async Task<IResult> RegisterUser(RegisterUserRequest request, IAuthService UserService, CancellationToken cancellationToken)
@@ -68,6 +69,11 @@ public static class AuthEndpoints
                 return Results.Unauthorized();
         }
         return Results.Ok(response);
+    }
+
+    public static async Task<IResult> GetVersion()
+    {
+        return Results.Ok("0.5.1");
     }
 
     internal static async Task<bool> IsAuthenticated(string email, IRedisCacheService cacheService, CancellationToken cancellationToken)
