@@ -4,19 +4,10 @@ import { useAppSelector, useAppDispatch } from '../../hooks/reduxHook';
 import { useEffect, useState } from 'react';
 import { getVersion, setVersion } from '../../redux/reducers/authSlice';
 
-
 const Footer = () => {
   const version = useAppSelector((state) => state.auth.version);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
-
-   /* useEffect(() => {
-      dispatch(getVersion())
-        .then(() => {
-          setLoading(false);
-        })
-        .catch(() => setLoading(false));
-    }, [dispatch]);*/
 
     useEffect(() => {
       const fetchVersion = async () => {
@@ -108,7 +99,7 @@ const Footer = () => {
       </FooterContainer>
       <div style={{ textAlign: 'right', padding: '10px', backgroundColor: '#f5f5f5' }}>
         <Typography variant="body2" color="textSecondary">
-          Front-end v0.5.1 - Back-end v{version || '?'}
+          Front-end v0.7.0 - Back-end v{version || '?'}
         </Typography>
         </div>
     </div>

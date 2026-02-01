@@ -21,10 +21,11 @@ public class RedisCacheService(IDistributedCache cache) : IRedisCacheService
         string key,
         T data,
         CancellationToken cancellationToken)
-    {
+    {     
+
         var options = new DistributedCacheEntryOptions()
         {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1)
         };
 
         await cache.SetStringAsync(
