@@ -8,10 +8,10 @@ const BannerSection = () => {
   return (
     <BannerSectionContainer maxWidth={false}>
       <Banner>
-        <BannerImage image="/assets/image-place-holder-banner.png" />
+        <BannerImage image="/assets/ciber-library-image1-612x612.jpg" />
       </Banner>
       <Banner>
-        <BannerImage image="/assets/image-place-holder-banner.png" />
+        <BannerImage image="/assets/ciber-library-image2-612x612.jpg" />
       </Banner>
     </BannerSectionContainer>
   );

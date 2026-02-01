@@ -2,6 +2,9 @@
 
 public static class BookEndpoints
 {
+    const string CACHEKEY_BOOKS = "CACHEKEY_BOOKS";
+    const string CACHEKEY_BOOK = "CACHEKEY_BOOK_";
+
     public static void MapBookEndpoints(this IEndpointRouteBuilder app)
     {
         var bookGroup = app.MapGroup("api/Books");
@@ -15,10 +18,8 @@ public static class BookEndpoints
 
     public static async Task<IResult> GetAllBooks(IBookService bookService, IRedisCacheService cacheService, CancellationToken cancellationToken)
     {
-        var cacheKey = "books";
-
         var response = await cacheService.GetDataAsync<List<BookResponse>>(
-            cacheKey,
+            CACHEKEY_BOOKS,
             cancellationToken);
 
         if (response is not null)
@@ -36,7 +37,7 @@ public static class BookEndpoints
         response = books.Select(b => b.ToResponseDto()).ToList();
 
         await cacheService.SetDataAsync<List<BookResponse>>(
-            cacheKey,
+            CACHEKEY_BOOKS,
             response,
             cancellationToken);
 
@@ -45,7 +46,7 @@ public static class BookEndpoints
 
     public static async Task<IResult> GetBook(int id, IBookService bookService, IRedisCacheService cacheService, CancellationToken cancellationToken)
     {
-        var cacheKey = $"book_{id}";
+        var cacheKey = CACHEKEY_BOOK + id;
 
         var response = await cacheService.GetDataAsync<BookResponse>(
             cacheKey,
@@ -81,8 +82,12 @@ public static class BookEndpoints
         }
 
         var book = request.ToEntity();
-
         book.Id = await bookService.CreateBookAsync(book, cancellationToken);
+
+        if(book.Id < 0)
+        {
+            return Results.BadRequest("Failed to create book.");
+        }
 
         ClearCacheForBooks(cacheService, cancellationToken);
 
@@ -98,24 +103,19 @@ public static class BookEndpoints
         {
             return Results.Unauthorized();
         }
+       
+        var book = request.ToEntity(id);
+        book.Id = await bookService.UpdateBookAsync(book, cancellationToken);
 
-        try
-        {
-            var book = request.ToEntity(id);
-
-            await bookService.UpdateBookAsync(book, cancellationToken);
-
-            var cacheKey = $"book_{id}";
-
-            ClearCacheForBookId(cacheKey, cacheService, cancellationToken);
-            ClearCacheForBooks(cacheService, cancellationToken);
-
-            return Results.NoContent();
+        if(book.Id < 0) {
+            return Results.BadRequest("Failed to update book.");
         }
-        catch (Exception ex)
-        {
-            return Results.NotFound(ex.Message);
-        }
+
+        var cacheKey = CACHEKEY_BOOK + id;
+        ClearCacheForBookId(cacheKey, cacheService, cancellationToken);
+        ClearCacheForBooks(cacheService, cancellationToken);
+
+        return Results.NoContent();       
     }
 
     public static async Task<IResult> DeleteBook(DeleteBookRequest request, IBookService bookService, IRedisCacheService cacheService, CancellationToken cancellationToken)
@@ -125,41 +125,44 @@ public static class BookEndpoints
             return Results.Unauthorized();
         }
 
-        try
-        {
-            var cacheKey = $"book_{request.ISBN}";
+        int code = await bookService.DeleteBookByIdAsync(request.ISBN, cancellationToken);
 
-            await bookService.DeleteBookByIdAsync(request.ISBN, cancellationToken);
-
-            ClearCacheForBooks(cacheService, cancellationToken);
-
-            return Results.NoContent();
+        if (code < 0) {
+            return Results.BadRequest("Failed to delete book.");
         }
-        catch (Exception ex)
-        {
-            return Results.NotFound(ex.Message);
-        }
+
+        ClearCacheForBooks(cacheService, cancellationToken);
+
+        return Results.NoContent();
     }
 
     internal static async Task<bool> IsAuthenticated(string email, IRedisCacheService cacheService, CancellationToken cancellationToken)
     {
-        var cacheKey = $"token_{email}";
+        try
+        {
+            var cacheKey = $"token_{email}";
 
-        var token = await cacheService.GetDataAsync<string>(
-            cacheKey,
-            cancellationToken);
+            var token = await cacheService.GetDataAsync<string>(
+                cacheKey,
+                cancellationToken);
 
-        if (token is not null) return true;
-        else return false;
+            if (token is not null) return true;
+            
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error clearing cache for books: {ex.Message}");
+        }
+        
+        return false;
     }
 
     internal static async void ClearCacheForBooks(IRedisCacheService cacheService, CancellationToken cancellationToken)
     {
         try
-        {
-            var cacheKey = "books";
+        {            
             await cacheService.RemoveDataAsync(
-                cacheKey,
+                CACHEKEY_BOOKS,
                 cancellationToken);
         }
         catch (Exception ex)
