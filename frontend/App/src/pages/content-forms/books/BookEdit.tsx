@@ -106,12 +106,12 @@ const Profile = () => {
                 <Box>
                   <Typography variant="h6">Edit Book</Typography>
                 </Box>  
-                  <span style={{ padding: '20px', color: 'red' }}>
+                  <span style={{  width: '400px', padding: '20px', color: 'red' }}>
                   {" "}
                   {error} {success}
                 </span>          
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Box sx={{ width: '400px',  display: 'flex', flexDirection: 'column' }}>
                   
                     <TextField
                       variant="outlined"

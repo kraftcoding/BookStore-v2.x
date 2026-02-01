@@ -49,7 +49,7 @@ const BookAdd: React.FC = () => {
       <BookInfoContainer>               
               <Box
                 sx={{
-                  width: '100%',
+               
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'start',
@@ -59,12 +59,12 @@ const BookAdd: React.FC = () => {
                 <Box>
                   <Typography variant="h5">Add Book</Typography>
                 </Box>          
-                 <span style={{ padding: '20px', color: 'red' }}>
+                 <span style={{  width: '400px',  padding: '20px', color: 'red' }}>
                   {" "}
                   {error} {success}
                 </span>                
                <form onSubmit={handleSubmit(onSubmit)}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>  
+                  <Box sx={{  width: '400px', display: 'flex', flexDirection: 'column' }}>  
                     <div style={{ display: 'none' }}>                      
                       <TextField
                         variant="outlined"
