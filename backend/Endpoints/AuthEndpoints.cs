@@ -73,7 +73,7 @@ public static class AuthEndpoints
 
     public static async Task<IResult> GetVersion()
     {
-        return Results.Ok("0.7.0");
+        return Results.Ok("0.7.1");
     }
 
     internal static async Task<bool> IsAuthenticated(string email, IRedisCacheService cacheService, CancellationToken cancellationToken)

@@ -2,6 +2,7 @@
   <Folder Name="/backend/">
     <Project Path="backend/Books.Api.Docker.csproj" />
   </Folder>
+  <Folder Name="/docs/" />
   <Folder Name="/frontend/">
     <Project Path="frontend/Books.App.Docker.csproj" />
   </Folder>
