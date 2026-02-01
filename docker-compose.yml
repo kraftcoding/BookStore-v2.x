@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: frontend/app/Dockerfile
-    image: ${DOCKER_REGISTRY-}book.app
+    image: kraftcoding/bookstoreversiontwofront:master
     container_name: book.app
     ports:
       - "3000:3000"
@@ -14,7 +14,7 @@ services:
       - books.api
 
   books.api:
-    image: ${DOCKER_REGISTRY-}books.api
+    image: kraftcoding/bookstoreversiontwowebapi:master
     container_name: books.api
     build:
       context: .
