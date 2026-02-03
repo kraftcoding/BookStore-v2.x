@@ -4,6 +4,10 @@ Book Store v2.x solution built with .NET 10 and React 18, designed to demonstrat
 
 CI/CD is configured using GitHub Actions to automate the build, test, and deployment processes.
 
+Check out the related technical documentation here: 
+
+- https://github.com/kraftcoding/BookStore-v2.x/blob/master/DOCS/BookStore%20solution%20-%20Technical%20Document.pdf
+
 ## Table of Contents
 
 - [Getting Started](#getting-started)
