@@ -3,7 +3,7 @@
 public static class BookEndpoints
 {
     const string CACHEKEY_BOOKS = "CACHEKEY_BOOKS";
-    const string CACHEKEY_BOOK = "CACHEKEY_BOOK_";
+    const string CACHEKEY_BOOK = "CACHEKEY_BOOK_";  
 
     public static void MapBookEndpoints(this IEndpointRouteBuilder app)
     {
@@ -41,7 +41,7 @@ public static class BookEndpoints
             response,
             cancellationToken);
 
-        return Results.Ok(books.Select(b => b.ToResponseDto()));
+        return Results.Ok(response);
     }
 
     public static async Task<IResult> GetBook(int id, IBookService bookService, IRedisCacheService cacheService, CancellationToken cancellationToken)

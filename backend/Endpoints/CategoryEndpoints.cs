@@ -2,6 +2,9 @@
 
 public static class CategoryEndpoints
 {
+    const string CACHEKEY_CATEGORIES = "CACHEKEY_CATEGORIES";
+    const string CACHEKEY_CATEGORY = "CACHEKEY_CATEGORY_";
+
     public static void MapCategoryEndpoints(this IEndpointRouteBuilder app)
     {
         var categoryGroup = app.MapGroup("api/Categories");
@@ -13,16 +16,37 @@ public static class CategoryEndpoints
         //categoryGroup.MapDelete("{id}", DeleteCategory).WithName(nameof(DeleteCategory));
     }
 
-    public static async Task<IResult> GetAllCategories(ICategoryService CategoryService, CancellationToken cancellationToken)
+    public static async Task<IResult> GetAllCategories(ICategoryService CategoryService, IRedisCacheService cacheService, CancellationToken cancellationToken)
     {
+        var response = await cacheService.GetDataAsync<List<CategoryResponse>>(
+            CACHEKEY_CATEGORIES,
+            cancellationToken);
+
+        if (response is not null)
+        {
+            return Results.Ok(response);
+        }
+
         var categories = await CategoryService.GetCategoriesAsync(cancellationToken);
 
-        return Results.Ok(categories.Select(b => b.ToResponseDto()));
+        if (categories is null)
+        {
+            return Results.NotFound();
+        }
+
+        response = categories.Select(b => b.ToResponseDto()).ToList();
+
+        await cacheService.SetDataAsync<List<CategoryResponse>>(
+           CACHEKEY_CATEGORIES,
+           response,
+           cancellationToken);
+
+        return Results.Ok(response);
     }
 
     public static async Task<IResult> GetCategory(int id, ICategoryService CategoryService, IRedisCacheService cacheService, CancellationToken cancellationToken)
     {
-        var cacheKey = $"category_{id}";
+        var cacheKey = CACHEKEY_CATEGORY + id;
 
         var response = await cacheService.GetDataAsync<CategoryResponse>(
             cacheKey,
