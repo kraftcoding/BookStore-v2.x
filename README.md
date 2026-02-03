@@ -57,6 +57,7 @@ If you want to test the React App in your development environment, run the next 
 ## Features
 
 - **Built with .NET 10 and React 18**: Utilizes the latest features for efficient development.
+- **redux Toolkit**: Manages application state effectively.
 - **Docker Compose**: Manages multi-container applications seamlessly.
 - **PostgreSQL**: Powerful relational database for data storage.
 - **Redis**: Caching solution for improved performance.
@@ -72,6 +73,7 @@ If you want to test the React App in your development environment, run the next 
 ## Technologies Used
 
 - **React 18**
+- **Redux Toolkit**
 - **.NET 10**
 - **PostgreSQL**
 - **Redis**

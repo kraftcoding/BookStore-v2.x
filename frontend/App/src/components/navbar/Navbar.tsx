@@ -131,7 +131,7 @@ const Navbar = () => {
         <Toolbar>
           <Box
             sx={{
-              width: '150px',
+              width: '200px',
             }}
           >
             <Typography variant="h6" noWrap component="div">
