@@ -99,7 +99,7 @@ const Footer = () => {
       </FooterContainer>
       <div style={{ textAlign: 'right', padding: '10px', backgroundColor: '#f5f5f5' }}>
         <Typography variant="body2" color="textSecondary">
-          Front-end v0.7.1 - Back-end v{version || '?'}
+          Front-end v0.7.2 - Back-end v{version || '?'}
         </Typography>
         </div>
     </div>
