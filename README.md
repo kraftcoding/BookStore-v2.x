@@ -1,6 +1,6 @@
 # Book Store v2.x
 
-Book Store v2.x solution built with .NET 10 and React 18, designed to demonstrate the integration of Docker Compose for container orchestration. The application utilizes PostgreSQL as its primary database, JWT authentication and authorization and Redis for caching; providing a robust foundation for scalable Web API.
+Book Store v2.x solution built with .NET 10 and React 18 with Redux, designed to demonstrate the integration of Docker Compose for container orchestration. The application utilizes PostgreSQL as its primary database, JWT authentication and authorization and Redis for caching; providing a robust foundation for scalable Web API focusing on large applications.
 
 CI/CD is configured using GitHub Actions to automate the build, test, and deployment processes.
 
@@ -73,7 +73,7 @@ If you want to test the React App in your development environment, run the next 
 - **Error Handling and Logging**: Robust mechanisms for tracking and resolving issues.
 - **Scalability**: Designed to handle increased load with ease.
 - **Modular Codebase**: Organized structure for maintainability and extensibility.
-- 
+  
 ## Technologies Used
 
 - **React 18**
