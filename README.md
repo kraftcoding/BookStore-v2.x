@@ -10,7 +10,7 @@ Check out the related technical documentation here:
 
 Demonstration video:
 
-- https://www.youtube.com/watch?v=Rcgq9Q5yh5U
+- [https://www.youtube.com/watch?v=Rcgq9Q5yh5U](https://www.youtube.com/watch?v=-p0J3d5xPmY)
 
 ## Table of Contents
 
