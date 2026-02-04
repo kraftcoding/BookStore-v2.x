@@ -8,6 +8,10 @@ Check out the related technical documentation here:
 
 - https://github.com/kraftcoding/BookStore-v2.x/blob/master/DOCS/BookStore%20solution%20-%20Technical%20Document.pdf
 
+Demonstration video:
+
+- https://www.youtube.com/watch?v=Rcgq9Q5yh5U
+
 ## Table of Contents
 
 - [Getting Started](#getting-started)
